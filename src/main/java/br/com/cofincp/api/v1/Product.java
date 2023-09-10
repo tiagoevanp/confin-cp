@@ -50,7 +50,7 @@ public class Product implements CRUDInterface<ProductEntity>{
     }
 
     @POST
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     @Override
     public Response create(ProductEntity product) {
@@ -65,7 +65,7 @@ public class Product implements CRUDInterface<ProductEntity>{
 
     @PUT
     @Path("/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     @Override
     public Response update(@PathParam("id") String id, ProductEntity product) {

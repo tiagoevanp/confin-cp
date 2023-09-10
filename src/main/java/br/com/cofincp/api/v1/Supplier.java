@@ -51,7 +51,7 @@ public class Supplier implements CRUDInterface<SupplierEntity> {
     }
 
     @POST
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     @Override
     public Response create(SupplierEntity supplier) {
@@ -66,7 +66,7 @@ public class Supplier implements CRUDInterface<SupplierEntity> {
 
     @PUT
     @Path("/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     @Override
     public Response update(@PathParam("id") String id, SupplierEntity supplier) {
