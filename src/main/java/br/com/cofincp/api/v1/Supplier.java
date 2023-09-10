@@ -1,12 +1,9 @@
 package br.com.cofincp.api.v1;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.types.ObjectId;
 
-import br.com.cofincp.entity.Address;
-import br.com.cofincp.entity.Contact;
 import br.com.cofincp.entity.SupplierEntity;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -54,27 +51,8 @@ public class Supplier {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response create() {
+    public Response create(SupplierEntity supplier) {
         try {
-            List<String> phones = new ArrayList<>();
-            phones.add("999999");
-            phones.add("999999");
-
-            List<String> emails = new ArrayList<>();
-            emails.add("t@t.com");
-            emails.add("t@t1.com");
-
-            SupplierEntity supplier = new SupplierEntity();
-            supplier.name = "Fornecedor 1";
-            supplier.marketplace = "Mercado Livre";
-            supplier.address = new Address();
-            supplier.address.setStreet("Rua 1");
-            supplier.address.setNumber(1);
-            supplier.address.setZip_code("99999999");
-            supplier.contact = new Contact();
-            supplier.contact.setPhone_number(phones);
-            supplier.contact.setEmail(emails);
-
             supplier.persist();
 
             return new Response(supplier);
