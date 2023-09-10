@@ -4,9 +4,8 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 
-import br.com.cofincp.entity.SupplierEntity;
+import br.com.cofincp.entity.ProductEntity;
 import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.POST;
@@ -16,15 +15,15 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
-@Path("api/v1/supplier")
-public class Supplier implements CRUDInterface<SupplierEntity> {
+@Path("api/v1/product")
+public class Product implements CRUDInterface<ProductEntity>{
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Override
     public Response all() {
         try {
-            List<SupplierEntity> suppliers = SupplierEntity.listAll();
+            List<ProductEntity> suppliers = ProductEntity.listAll();
 
             return new Response(suppliers);
         } catch (Exception e) {
@@ -36,15 +35,15 @@ public class Supplier implements CRUDInterface<SupplierEntity> {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Override
-    public Response read(@PathParam("id") String id) {
+     public Response read(@PathParam("id") String id) {
         try {
-            SupplierEntity supplier = SupplierEntity.findById(new ObjectId(id));
+            ProductEntity product = ProductEntity.findById(new ObjectId(id));
 
-            if(supplier == null) {
+            if(product == null) {
                 throw new NotFoundException();
             }
 
-            return new Response(supplier);
+            return new Response(product);
         } catch (Exception e) {
             return new Response(e.getMessage());
         }
@@ -54,11 +53,11 @@ public class Supplier implements CRUDInterface<SupplierEntity> {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Override
-    public Response create(SupplierEntity supplier) {
+    public Response create(ProductEntity product) {
         try {
-            supplier.persist();
+            product.persist();
 
-            return new Response(supplier);
+            return new Response(product);
         } catch (Exception e) {
             return new Response(e.getMessage());
         }
@@ -69,33 +68,31 @@ public class Supplier implements CRUDInterface<SupplierEntity> {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Override
-    public Response update(@PathParam("id") String id, SupplierEntity supplier) {
+    public Response update(@PathParam("id") String id, ProductEntity product) {
         try {
-            supplier.update();
+            product.update();
 
-            return new Response(supplier);
+            return new Response(product);
         } catch (Exception e) {
             return new Response(e.getMessage());
         }
     }
 
-    @DELETE
-    @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
     @Override
     public Response delete(@PathParam("id") String id) {
         try {
-            SupplierEntity supplier = SupplierEntity.findById(new ObjectId(id));
+            ProductEntity product = ProductEntity.findById(new ObjectId(id));
 
-            if(supplier == null) {
+            if(product == null) {
                 throw new NotFoundException();
             }
 
-            supplier.delete();
+            product.delete();
 
-            return new Response(supplier);
+            return new Response(product);
         } catch (Exception e) {
             return new Response(e.getMessage());
         }
     }
+    
 }
