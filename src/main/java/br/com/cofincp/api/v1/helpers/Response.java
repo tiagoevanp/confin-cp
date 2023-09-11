@@ -1,4 +1,4 @@
-package br.com.cofincp.api.v1;
+package br.com.cofincp.api.v1.helpers;
 
 public class Response {
     public Boolean success;

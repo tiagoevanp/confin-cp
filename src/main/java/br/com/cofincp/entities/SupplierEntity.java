@@ -1,5 +1,7 @@
-package br.com.cofincp.entity;
+package br.com.cofincp.entities;
 
+import br.com.cofincp.entities.helpers.Address;
+import br.com.cofincp.entities.helpers.Contact;
 import io.quarkus.mongodb.panache.PanacheMongoEntity;
 import io.quarkus.mongodb.panache.common.MongoEntity;
 

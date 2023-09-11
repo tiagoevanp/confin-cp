@@ -6,9 +6,8 @@ import org.bson.types.ObjectId;
 
 import br.com.cofincp.api.v1.helpers.ICrud;
 import br.com.cofincp.api.v1.helpers.Response;
-import br.com.cofincp.entities.SupplierEntity;
+import br.com.cofincp.entities.BusinessConfEntity;
 import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.POST;
@@ -18,17 +17,17 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
-@Path("api/v1/supplier")
-public class Supplier implements ICrud<SupplierEntity> {
+@Path("api/v1/config/business")
+public class BusinessConf implements ICrud<BusinessConfEntity>{
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Override
     public Response all() {
         try {
-            List<SupplierEntity> suppliers = SupplierEntity.listAll();
+            List<BusinessConfEntity> businessConfigs = BusinessConfEntity.listAll();
 
-            return new Response(suppliers);
+            return new Response(businessConfigs);
         } catch (Exception e) {
             return new Response(e.getMessage());
         }
@@ -38,15 +37,15 @@ public class Supplier implements ICrud<SupplierEntity> {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Override
-    public Response read(@PathParam("id") String id) {
+     public Response read(@PathParam("id") String id) {
         try {
-            SupplierEntity supplier = SupplierEntity.findById(new ObjectId(id));
+            BusinessConfEntity businessConfig = BusinessConfEntity.findById(new ObjectId(id));
 
-            if(supplier == null) {
+            if(businessConfig == null) {
                 throw new NotFoundException();
             }
 
-            return new Response(supplier);
+            return new Response(businessConfig);
         } catch (Exception e) {
             return new Response(e.getMessage());
         }
@@ -56,11 +55,11 @@ public class Supplier implements ICrud<SupplierEntity> {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     @Override
-    public Response create(SupplierEntity supplier) {
+    public Response create(BusinessConfEntity businessConfig) {
         try {
-            supplier.persist();
+            businessConfig.persist();
 
-            return new Response(supplier);
+            return new Response(businessConfig);
         } catch (Exception e) {
             return new Response(e.getMessage());
         }
@@ -71,33 +70,31 @@ public class Supplier implements ICrud<SupplierEntity> {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     @Override
-    public Response update(@PathParam("id") String id, SupplierEntity supplier) {
+    public Response update(@PathParam("id") String id, BusinessConfEntity businessConfig) {
         try {
-            supplier.update();
+            businessConfig.update();
 
-            return new Response(supplier);
+            return new Response(businessConfig);
         } catch (Exception e) {
             return new Response(e.getMessage());
         }
     }
 
-    @DELETE
-    @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
     @Override
     public Response delete(@PathParam("id") String id) {
         try {
-            SupplierEntity supplier = SupplierEntity.findById(new ObjectId(id));
+            BusinessConfEntity businessConfig = BusinessConfEntity.findById(new ObjectId(id));
 
-            if(supplier == null) {
+            if(businessConfig == null) {
                 throw new NotFoundException();
             }
 
-            supplier.delete();
+            businessConfig.delete();
 
-            return new Response(supplier);
+            return new Response(businessConfig);
         } catch (Exception e) {
             return new Response(e.getMessage());
         }
     }
+
 }

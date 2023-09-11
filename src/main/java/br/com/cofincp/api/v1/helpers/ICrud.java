@@ -1,6 +1,6 @@
-package br.com.cofincp.api.v1;
+package br.com.cofincp.api.v1.helpers;
 
-public interface CRUDInterface<T> {
+public interface ICrud<T> {
     public Response all();
     public Response read(String id);
     public Response create(T object);

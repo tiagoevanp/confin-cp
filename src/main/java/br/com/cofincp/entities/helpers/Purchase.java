@@ -1,4 +1,4 @@
-package br.com.cofincp.entity;
+package br.com.cofincp.entities.helpers;
 
 import java.util.Date;
 

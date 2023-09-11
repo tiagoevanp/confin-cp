@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 
-import br.com.cofincp.entity.ProductEntity;
+import br.com.cofincp.api.v1.helpers.ICrud;
+import br.com.cofincp.api.v1.helpers.Response;
+import br.com.cofincp.entities.ProductEntity;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.NotFoundException;
@@ -16,16 +18,16 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
 @Path("api/v1/product")
-public class Product implements CRUDInterface<ProductEntity>{
+public class Product implements ICrud<ProductEntity>{
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Override
     public Response all() {
         try {
-            List<ProductEntity> suppliers = ProductEntity.listAll();
+            List<ProductEntity> products = ProductEntity.listAll();
 
-            return new Response(suppliers);
+            return new Response(products);
         } catch (Exception e) {
             return new Response(e.getMessage());
         }
@@ -94,5 +96,4 @@ public class Product implements CRUDInterface<ProductEntity>{
             return new Response(e.getMessage());
         }
     }
-    
 }

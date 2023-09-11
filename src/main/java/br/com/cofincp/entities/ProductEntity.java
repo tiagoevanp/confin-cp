@@ -1,7 +1,8 @@
-package br.com.cofincp.entity;
+package br.com.cofincp.entities;
 
 import java.util.List;
 
+import br.com.cofincp.entities.helpers.Purchase;
 import io.quarkus.mongodb.panache.PanacheMongoEntity;
 import io.quarkus.mongodb.panache.common.MongoEntity;
 
