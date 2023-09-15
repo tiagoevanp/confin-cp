@@ -1,0 +1,34 @@
+@import '../../scss/colors';
+
+.button {
+    background-color: $cp-white;
+    color: $cp-black;
+    border-color: $cp-black !important; 
+    border-style: solid !important;
+    border-width: 1px !important;
+    border-radius: 5px;
+    height: 30px;
+    font-size: 15px;
+    font-family: inherit;
+    font-weight: 600;
+    line-height: 0;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    transition-property: background-color, transform, box-shadow;
+    transition-duration: 200ms;
+}
+
+.button:focus {
+    outline-color: transparent;
+    outline-style:solid;
+    box-shadow: 0 0 0 2px $cp-black-lighter;
+}
+
+.button:active {
+    transform: scale(0.99);
+    background-color: $cp-black-lighter;
+}

@@ -1,8 +1,9 @@
+import { type FC } from 'react';
 import Button from './components/button/Button';
 
-const App = () => (
+const App: FC = () => (
   <div className='app' style={{ padding: '20px' }}>
-    <Button />
+    <Button onClick={() => {}}>Button</Button>
   </div>
 );
 

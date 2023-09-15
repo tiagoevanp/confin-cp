@@ -1,0 +1,19 @@
+@font-face {
+  src: url('../resources/fonts/Montserrat/Montserrat-VariableFont_wght.ttf') format('TrueType');
+  font-family: "Montserrat";
+}
+
+html {
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
