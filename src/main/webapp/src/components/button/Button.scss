@@ -20,6 +20,16 @@
     cursor: pointer;
     transition-property: background-color, transform, box-shadow;
     transition-duration: 200ms;
+
+    &--danger {
+        color: $cp-danger;
+        border-color: $cp-danger !important;
+    }
+
+    &--success {
+        color: $cp-success;
+        border-color: $cp-success !important;
+    }
 }
 
 .button:focus {
