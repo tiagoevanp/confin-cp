@@ -1,0 +1,21 @@
+@import '../../style/colors';
+
+.icon {
+    display: block;
+    width: 30px;
+    height: 30px;
+    background-size: 30px 30px;
+    background-color: $cp-black;
+
+    &--edit {
+        mask-image: url(../../../resources/icons/edit.svg);
+    }
+
+    &--success {
+        background-color: $cp-success;
+    }
+
+    &--danger {
+        background-color: $cp-danger;
+    }
+}

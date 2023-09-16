@@ -1,16 +1,34 @@
 import { type PropsWithChildren, type FC } from 'react';
 import './Button.scss';
 import { createClassName } from '../helpers/createClassName';
+import Icon from '../icon/Icon';
 
 type ButtonProps = PropsWithChildren<{
-  variant?: 'default' | 'success' | 'danger';
+  variant?: 'success' | 'danger';
   onClick: () => void;
 }>;
 
-const Button: FC<ButtonProps> = ({ variant, onClick, children }) => {
-  const className = createClassName('button', [variant]);
+type SquareButtonProps = Omit<ButtonProps, 'children'> & {
+  square: boolean;
+  name: 'edit';
+};
 
-  return <button {...{ className, onClick }}>{children}</button>;
+const isSquare = (props: ButtonProps | SquareButtonProps): props is SquareButtonProps =>
+  (props as SquareButtonProps).square !== undefined &&
+  (props as SquareButtonProps).name !== undefined;
+
+const Button: FC<ButtonProps | SquareButtonProps> = (props) => {
+  const { variant, onClick } = props;
+
+  const className = isSquare(props)
+    ? createClassName('button', { square: props.square, variant })
+    : createClassName('button', { variant });
+
+  return (
+    <button {...{ className, onClick }}>
+      {isSquare(props) ? <Icon name={props.name} variant={variant} /> : props.children}
+    </button>
+  );
 };
 
 export default Button;

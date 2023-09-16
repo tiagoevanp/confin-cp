@@ -1,4 +1,4 @@
-@import '../../scss/colors';
+@import '../../style/colors';
 
 .button {
     background-color: $cp-white;
@@ -29,6 +29,11 @@
     &--success {
         color: $cp-success;
         border-color: $cp-success !important;
+    }
+
+    &--square {
+        width: 30px;
+        padding: 0;
     }
 }
 

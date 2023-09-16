@@ -3,7 +3,9 @@ import Button from './components/button/Button';
 
 const App: FC = () => (
   <div className='app' style={{ padding: '20px' }}>
-    <Button onClick={() => {}}>Button</Button>
+    <Button square name='edit' onClick={() => {}}>
+      Button
+    </Button>
   </div>
 );
 
