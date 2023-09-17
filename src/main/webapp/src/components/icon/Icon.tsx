@@ -9,7 +9,7 @@ export type IconProps = {
 };
 
 const Icon: FC<IconProps> = ({ name, variant }) => {
-  const className = createClassName('icon', { name, variant });
+  const className = createClassName('cp-icon', { name, variant });
 
   return <i {...{ className }} />;
 };

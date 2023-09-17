@@ -1,0 +1,11 @@
+@mixin font-regular {
+    font-weight: 400;
+}
+
+@mixin font-medium {
+    font-weight: 500;
+}
+
+@mixin font-semibold {
+    font-weight: 600;
+}

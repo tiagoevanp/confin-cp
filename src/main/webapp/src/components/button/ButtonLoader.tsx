@@ -8,7 +8,7 @@ type ButtonLoaderProps = {
 };
 
 const ButtonLoader: FC<ButtonLoaderProps> = ({ variant, isSquare }) => {
-  const className = createClassName('button-loader', { variant });
+  const className = createClassName('cp-button-loader', { variant });
 
   if (isSquare) {
     return <div className={className} />;

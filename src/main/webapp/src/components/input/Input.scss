@@ -1,0 +1,68 @@
+@import '../../style/colors';
+@import '../../style/fonts';
+
+.cp-input {
+    @include font-medium;
+    
+    color: $cp-black;
+    border-color: $cp-black;
+    font-family: inherit;
+    font-size: 14px;
+    height: 28px;
+    padding-inline: 10px;
+    padding-block: 0;
+    border-width: 1px;
+
+    border-radius: 5px;
+
+    &:focus {
+        outline-color: transparent;
+        outline-style:solid;
+        box-shadow: 0 0 0 2px $cp-black-light;
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    &::placeholder {
+        color: $cp-black-light;
+    }
+
+    &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
+}
+
+.cp-label {
+    &--text {
+        @include font-semibold;
+        
+        font-size: 14px;
+        padding-bottom: 5px;
+        padding-left: 2px;
+        color: $cp-black;
+    }
+
+    &--disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}
+
+.cp-hint {
+    &--text {
+        @include font-regular;
+        
+        font-size: 12px;
+        padding-bottom: 5px;
+        padding-left: 2px;
+        color: $cp-black;
+    }
+
+    &--disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}

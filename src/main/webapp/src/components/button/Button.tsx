@@ -23,8 +23,8 @@ const Button: FC<ButtonProps | SquareButtonProps> = (props) => {
   const { disabled, loading, variant, onClick } = props;
 
   const className = isSquare(props)
-    ? createClassName('button', { square: props.square, variant })
-    : createClassName('button', { variant });
+    ? createClassName('cp-button', { square: props.square, variant })
+    : createClassName('cp-button', { variant });
 
   const innerContent = useMemo(() => {
     if (loading ?? false) {

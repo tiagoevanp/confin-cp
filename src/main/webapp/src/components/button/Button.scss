@@ -1,4 +1,5 @@
 @import '../../style/colors';
+@import '../../style/fonts';
 
 @keyframes jump {
     0% { transform: translateY(0%) }
@@ -7,7 +8,9 @@
     100% { transform: translateY(0%) }
 }
 
-.button {
+.cp-button {
+    @include font-semibold;
+
     background-color: $cp-white;
     color: $cp-black;
     border-color: $cp-black !important; 
@@ -17,13 +20,9 @@
     height: 30px;
     font-size: 15px;
     font-family: inherit;
-    font-weight: 600;
     line-height: 0;
-    border: none;
     padding: 10px 20px;
     text-align: center;
-    text-decoration: none;
-    display: inline-block;
     cursor: pointer;
     transition-property: background-color, transform, box-shadow;
     transition-duration: 200ms;
