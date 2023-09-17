@@ -1,5 +1,12 @@
 @import '../../style/colors';
 
+@keyframes jump {
+    0% { transform: translateY(0%) }
+    30% { transform: translateY(-25%) }
+    60% { transform: translateY(5%) }
+    100% { transform: translateY(0%) }
+}
+
 .button {
     background-color: $cp-white;
     color: $cp-black;
@@ -35,15 +42,50 @@
         width: 30px;
         padding: 0;
     }
-}
 
-.button:focus {
-    outline-color: transparent;
-    outline-style:solid;
-    box-shadow: 0 0 0 2px $cp-black-lighter;
-}
+    &:focus {
+        outline-color: transparent;
+        outline-style:solid;
+        box-shadow: 0 0 0 2px $cp-black-light;
+    }
 
-.button:active {
-    transform: scale(0.99);
-    background-color: $cp-black-lighter;
+    &:hover:enabled {
+        background-color: $cp-black-ultra-light;
+    }
+
+    &:active:enabled {
+        transform: scale(0.99);
+        background-color: $cp-black-light;
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    &-loader {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        margin-inline: 2px;
+        border-radius: 100%;
+        background-color: $cp-black;
+        animation: jump 1s ease infinite;
+        vertical-align: middle;
+
+        &--danger {
+            background-color: $cp-danger;
+        }
+
+        &--success {
+            background-color: $cp-success;
+        }
+
+        &:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+        &:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+    }
 }

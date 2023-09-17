@@ -1,32 +1,46 @@
-import { type PropsWithChildren, type FC } from 'react';
+import { type PropsWithChildren, type FC, useMemo } from 'react';
 import './Button.scss';
 import { createClassName } from '../helpers/createClassName';
-import Icon from '../icon/Icon';
+import Icon, { type IconProps } from '../icon/Icon';
+import ButtonLoader from './ButtonLoader';
 
-type ButtonProps = PropsWithChildren<{
+export type ButtonProps = PropsWithChildren<{
   variant?: 'success' | 'danger';
+  disabled?: boolean;
+  loading?: boolean;
   onClick: () => void;
 }>;
 
 type SquareButtonProps = Omit<ButtonProps, 'children'> & {
   square: boolean;
-  name: 'edit';
+  name: IconProps['name'];
 };
 
 const isSquare = (props: ButtonProps | SquareButtonProps): props is SquareButtonProps =>
-  (props as SquareButtonProps).square !== undefined &&
-  (props as SquareButtonProps).name !== undefined;
+  'square' in props && 'name' in props;
 
 const Button: FC<ButtonProps | SquareButtonProps> = (props) => {
-  const { variant, onClick } = props;
+  const { disabled, loading, variant, onClick } = props;
 
   const className = isSquare(props)
     ? createClassName('button', { square: props.square, variant })
     : createClassName('button', { variant });
 
+  const innerContent = useMemo(() => {
+    if (loading ?? false) {
+      return <ButtonLoader variant={variant} isSquare={isSquare(props)} />;
+    }
+
+    if (isSquare(props)) {
+      return <Icon name={props.name} variant={variant} />;
+    }
+
+    return props.children;
+  }, [loading, props, variant]);
+
   return (
-    <button {...{ className, onClick }}>
-      {isSquare(props) ? <Icon name={props.name} variant={variant} /> : props.children}
+    <button type='button' disabled={disabled} className={className} onClick={onClick}>
+      {innerContent}
     </button>
   );
 };
