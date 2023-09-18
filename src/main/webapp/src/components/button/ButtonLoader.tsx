@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 import { type ButtonProps } from './Button';
-import { createClassName } from '../helpers/createClassName';
+import { useClassName } from '../../hooks/useClassName';
 
 type ButtonLoaderProps = {
   isSquare: boolean;
@@ -8,7 +8,7 @@ type ButtonLoaderProps = {
 };
 
 const ButtonLoader: FC<ButtonLoaderProps> = ({ variant, isSquare }) => {
-  const className = createClassName('cp-button-loader', { variant });
+  const className = useClassName('cp-button-loader', { variant });
 
   if (isSquare) {
     return <div className={className} />;

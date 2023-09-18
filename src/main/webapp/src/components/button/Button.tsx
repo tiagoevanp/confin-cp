@@ -1,6 +1,6 @@
 import { type PropsWithChildren, type FC, useMemo } from 'react';
 import './Button.scss';
-import { createClassName } from '../helpers/createClassName';
+import { useClassName } from '../../hooks/useClassName';
 import Icon, { type IconProps } from '../icon/Icon';
 import ButtonLoader from './ButtonLoader';
 
@@ -22,9 +22,9 @@ const isSquare = (props: ButtonProps | SquareButtonProps): props is SquareButton
 const Button: FC<ButtonProps | SquareButtonProps> = (props) => {
   const { disabled, loading, variant, onClick } = props;
 
-  const className = isSquare(props)
-    ? createClassName('cp-button', { square: props.square, variant })
-    : createClassName('cp-button', { variant });
+  const conditionalProps = isSquare(props) ? { square: props.square, variant } : { variant };
+
+  const className = useClassName('cp-button', conditionalProps);
 
   const innerContent = useMemo(() => {
     if (loading ?? false) {

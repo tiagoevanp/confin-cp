@@ -1,0 +1,84 @@
+@import '../../styles/colors';
+@import '../../styles/fonts';
+
+.cp-select {
+
+    &__control{
+        @include font-medium;
+
+        color: $cp-black;
+        border-color: $cp-black;
+        font-family: inherit;
+        font-size: 14px;
+        height: 30px;
+        padding-block: 0;
+        border-width: 1px;
+        border-color: $cp-black !important;
+        border-radius: 5px;
+        min-height: 30px !important;
+
+        &--is-focused {
+            outline-color: transparent;
+            outline-style:solid;
+            border: 1px solid $cp-black !important;
+            box-shadow: 0 0 0 2px $cp-black-light !important;
+        }
+
+        &--is-disabled {
+            background-color: $cp-white !important;
+            opacity: 0.5;
+            cursor: not-allowed !important;
+            pointer-events: auto !important;
+        }
+    }
+
+    &__input-container {
+        color: $cp-black !important;
+    }
+
+    &__placeholder {
+        color: $cp-black-light !important;
+    }
+
+    &__indicators {
+        padding: 0;
+        height: 25px;
+    }
+
+    &__indicator {
+        height: 30px;
+
+        &-separator {
+            display: none;
+        }
+    }
+
+    &__menu {
+        @include font-medium;
+
+        color: $cp-black;
+        font-family: inherit;
+        font-size: 14px;
+        border-width: 1px;
+        border-style: solid;
+        border-color: $cp-black !important;
+        border-radius: 5px;
+        min-height: 30px !important;
+        box-shadow: -2px 2px 2px 0 $cp-black-light !important;
+    }
+
+    &__option {
+        &:hover {
+            background-color: $cp-black-ultra-light !important;
+        }
+
+        &--is-focused {
+            background-color: $cp-black-ultra-light !important;
+        }
+
+        &--is-selected {
+            background-color: $cp-black-light !important;
+            color: $cp-black !important;
+        }
+    }
+}

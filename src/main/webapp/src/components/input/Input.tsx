@@ -13,11 +13,11 @@ type InputProps = {
 
 const Input: FC<InputProps> = ({ type, disabled, placeholder, label, hint }) => {
   return (
-    <Label text={label} disabled={disabled}>
-      <Hint text={hint} disabled={disabled}>
-        <input type={type} disabled={disabled} placeholder={placeholder} className='cp-input' />
-      </Hint>
-    </Label>
+    <div>
+      <Label text={label} disabled={disabled} />
+      <Hint text={hint} disabled={disabled} />
+      <input type={type} disabled={disabled} placeholder={placeholder} className='cp-input' />
+    </div>
   );
 };
 

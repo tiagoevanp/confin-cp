@@ -1,5 +1,5 @@
 import { type PropsWithChildren, type FC } from 'react';
-import { createClassName } from '../helpers/createClassName';
+import { useClassName } from '../../hooks/useClassName';
 
 type HintProps = PropsWithChildren<{
   text?: string;
@@ -7,18 +7,17 @@ type HintProps = PropsWithChildren<{
 }>;
 
 const Hint: FC<HintProps> = ({ text, children, disabled }) => {
-  if (text === undefined || text === null || text === '') {
-    return <>{children}</>;
-  }
-
-  const className = createClassName('cp-hint', {
+  const className = useClassName('cp-hint', {
     disabled,
   });
+
+  if (text === undefined || text === null || text === '') {
+    return null;
+  }
 
   return (
     <div className={className}>
       <div className='cp-hint--text'>{text}</div>
-      {children}
     </div>
   );
 };
