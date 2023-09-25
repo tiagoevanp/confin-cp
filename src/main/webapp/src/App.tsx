@@ -2,7 +2,7 @@ import { type FC } from 'react';
 import Input from './components/input/Input';
 import Button from './components/button/Button';
 import Select from './components/select/Select';
-import Callout from './components/callout/Callout';
+import Avatar from './components/avatar/Avatar';
 
 const App: FC = () => {
   const options = [
@@ -13,12 +13,7 @@ const App: FC = () => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', padding: '20px', gap: '10px' }}>
-      <Callout type='success' message='Success message' />
-      <Callout type='warning' message='Warning message' />
-      <Callout
-        type='danger'
-        message='Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic officiis deserunt consectetur similique eius, corporis cumque. Ab, quibusdam labore? Aut dolorem non aperiam voluptates, magni accusamus eius assumenda fugiat fugit?'
-      />
+      <Avatar name='coelho papeleiro' />
       <div
         className='app'
         style={{
