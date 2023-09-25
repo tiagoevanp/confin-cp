@@ -1,0 +1,32 @@
+@import '../../styles/colors.scss';
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 50px;
+    border-bottom-style: solid;
+    border-bottom-color: $cp-blue-dark;
+    border-bottom-width: 5px;
+    box-shadow: 0 2px 2px $cp-black-light;
+
+    &__links {
+        display: flex;
+        gap: 100px;
+
+        a {
+            color: $cp-black;
+            padding: 1px;
+            text-decoration: none;
+            border-bottom-width: 1px;
+            border-bottom-style: solid;
+            border-bottom-color: $cp-black;
+
+            &:focus {
+                outline-color: transparent;
+                outline-style:solid;
+                box-shadow: 0 0 0 2px $cp-black-light;
+            }
+        }
+    }
+}
