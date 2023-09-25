@@ -12,6 +12,7 @@
     border-width: 4px;
     border-radius: 5px;
     font-size: 12px;
+    box-shadow: 0 2px 2px $cp-black-light;
 
     &--success {
         border-color: $cp-success;
