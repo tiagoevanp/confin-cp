@@ -5,9 +5,10 @@ import Icon, { type IconProps } from '../icon/Icon';
 import ButtonLoader from './ButtonLoader';
 
 export type ButtonProps = PropsWithChildren<{
-  variant?: 'success' | 'danger';
+  variant?: 'success' | 'danger' | 'warning' | 'white';
   disabled?: boolean;
   loading?: boolean;
+  ghost?: boolean;
   onClick: () => void;
 }>;
 
@@ -20,15 +21,17 @@ const isSquare = (props: ButtonProps | SquareButtonProps): props is SquareButton
   'square' in props && 'name' in props;
 
 const Button: FC<ButtonProps | SquareButtonProps> = (props) => {
-  const { disabled, loading, variant, onClick } = props;
+  const { disabled, ghost, loading, variant, onClick } = props;
 
-  const conditionalProps = isSquare(props) ? { square: props.square, variant } : { variant };
+  const conditionalProps = isSquare(props)
+    ? { square: props.square, variant, ghost }
+    : { variant, ghost };
 
   const className = useClassName('cp-button', conditionalProps);
 
   const innerContent = useMemo(() => {
     if (loading ?? false) {
-      return <ButtonLoader variant={variant} isSquare={isSquare(props)} />;
+      return <ButtonLoader ghost={ghost} variant={variant} isSquare={isSquare(props)} />;
     }
 
     if (isSquare(props)) {
@@ -36,7 +39,7 @@ const Button: FC<ButtonProps | SquareButtonProps> = (props) => {
     }
 
     return props.children;
-  }, [loading, props, variant]);
+  }, [ghost, loading, props, variant]);
 
   return (
     <button type='button' disabled={disabled} className={className} onClick={onClick}>

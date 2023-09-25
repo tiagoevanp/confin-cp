@@ -37,9 +37,37 @@
         border-color: $cp-success !important;
     }
 
+    &--warning {
+        color: $cp-warning;
+        border-color: $cp-warning !important;
+    }
+
+    &--white {
+        color: $cp-white;
+        border-color: $cp-white !important;
+
+        &:focus {
+            box-shadow: 0 0 0 2px $cp-white !important;
+        }
+    }
+
     &--square {
         width: 30px;
         padding: 0;
+    }
+
+
+    &--ghost {
+        background-color: transparent;
+        border-color: transparent !important;
+    
+        &:hover:enabled {
+            background-color: transparent !important;
+        }
+    
+        &:active:enabled {
+            background-color: transparent !important;
+        }
     }
 
     &:focus {

@@ -1,0 +1,65 @@
+@import '../../styles/colors.scss';
+@import '../../styles/fonts.scss';
+
+.callout {
+    @include font-regular;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
+    border-style: solid;
+    border-width: 4px;
+    border-radius: 5px;
+    font-size: 12px;
+
+    &--success {
+        border-color: $cp-success;
+    }
+
+    &--warning {
+        border-color: $cp-warning;
+    }
+
+    &--danger {
+        border-color: $cp-danger;
+    }
+
+    &--hide {
+        display: none;
+    }
+
+    &__innerContent {
+        display: flex;
+        padding-inline: 20px;
+        align-items: center;
+        gap: 20px;
+        min-width: 0;
+
+        &__text {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+    }
+
+    &-close {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 50px;
+        height: 50px;
+
+        &--success {
+            background-color: $cp-success;
+        }
+    
+        &--warning {
+            background-color: $cp-warning;
+        }
+    
+        &--danger {
+            background-color: $cp-danger;
+        }
+    }
+}

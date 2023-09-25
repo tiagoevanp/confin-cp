@@ -4,6 +4,8 @@
     display: block;
     width: 30px;
     height: 30px;
+    min-width: 30px;
+    min-height: 30px;
     background-size: 30px 30px;
     background-color: $cp-black;
 
@@ -15,7 +17,15 @@
         background-color: $cp-success;
     }
 
+    &--warning {
+        background-color: $cp-warning;
+    }
+
     &--danger {
         background-color: $cp-danger;
+    }
+
+    &--white {
+        background-color: $cp-white;
     }
 }
