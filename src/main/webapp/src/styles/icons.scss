@@ -10,4 +10,20 @@
     &--close {
         mask-image: url(../../resources/icons/close.svg);
     }
+
+    &--home {
+        mask-image: url(../../resources/icons/home.svg);
+    }
+
+    &--logout {
+        mask-image: url(../../resources/icons/logout.svg);
+    }
+
+    &--clipboard {
+        mask-image: url(../../resources/icons/clipboard.svg);
+    }
+
+    &--settings {
+        mask-image: url(../../resources/icons/settings.svg);
+    }
 }

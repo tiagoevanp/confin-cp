@@ -7,7 +7,7 @@ const Header: FC = () => {
   return (
     <header className='header'>
       <div className='header__links'>
-        <Link to='#'>Link 1</Link>
+        <Link to='/'>Início</Link>
         <Link to='#'>Link 2</Link>
         <Link to='#'>Link 3</Link>
       </div>

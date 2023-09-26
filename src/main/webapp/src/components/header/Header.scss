@@ -9,6 +9,7 @@
     border-bottom-color: $cp-blue-dark;
     border-bottom-width: 5px;
     box-shadow: 0 2px 2px $cp-black-light;
+    z-index: 1;
 
     &__links {
         display: flex;

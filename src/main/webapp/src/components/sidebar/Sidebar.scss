@@ -1,0 +1,51 @@
+@import '../../styles/colors.scss';
+@import '../../styles/fonts.scss';
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: $cp-white;
+    border-right: 4px solid $cp-blue-dark;
+    box-shadow: 2px 0 2px $cp-black-light;
+    padding-block: 25px;
+    padding-inline: 15px;
+    top: 0;
+    width: 250px;
+
+    &__section {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 15px;
+        h1 {
+            @include font-semibold;
+    
+            font-size: 16px;
+            color: $cp-blue-dark;
+        }
+    }
+    &__items {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 10px;
+    }
+
+    &__item {
+        @include font-medium;
+        
+        color: $cp-black;
+        padding: 10px;
+        padding-right: 20px;
+        margin-left: 35px;
+        margin-right: 25px;
+        font-size: 14px;
+        text-decoration: none;
+        border-radius: 5px;
+
+        &--selected {
+            background-color: $cp-blue-dark;
+            color: $cp-white;
+        }
+    }
+}
