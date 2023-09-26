@@ -1,0 +1,13 @@
+@mixin icons {
+    &--edit {
+        mask-image: url(../../resources/icons/edit.svg);
+    }
+
+    &--delete {
+        mask-image: url(../../resources/icons/delete.svg);
+    }
+
+    &--close {
+        mask-image: url(../../resources/icons/close.svg);
+    }
+}

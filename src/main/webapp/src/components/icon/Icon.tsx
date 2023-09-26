@@ -4,7 +4,7 @@ import { useClassName } from '../../hooks/useClassName';
 import { type ButtonProps } from '../button/Button';
 
 export type IconProps = {
-  name: 'edit';
+  name: 'edit' | 'delete' | 'close';
   variant?: ButtonProps['variant'];
 };
 

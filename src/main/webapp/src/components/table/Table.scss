@@ -1,0 +1,103 @@
+@import '../../styles/colors.scss';
+@import '../../styles/fonts.scss';
+
+.cp-table {
+    position: relative;
+    border-collapse: collapse;
+    color: $cp-black;
+    width: 100%;
+
+    thead {
+        tr {
+            top: 0;
+            z-index: 1; 
+            position: sticky;
+            background-color: $cp-white;
+
+            th {
+                @include font-semibold; 
+
+                box-shadow:  inset 0 -2px 0 $cp-blue-dark;
+                border-left: 1px dashed $cp-blue-dark;
+                border-right: 1px dashed $cp-blue-dark;
+                border-top: 0;
+                padding: 8px;
+                text-align: left;
+                font-size: 15px;
+                cursor: pointer;
+
+                &:first-child {
+                    border-left: 0;
+                }
+    
+                &:last-child {
+                    border-right: 0;
+                    cursor: default;
+                }
+            }
+        }
+    }
+
+    tbody {
+        tr {
+            td {
+                @include font-regular;
+
+                border: 1px dashed $cp-blue-dark;
+                border-top: 0;
+                border-bottom: 0;
+                padding: 8px;
+                font-size: 14px;
+
+                .cp-button {
+                    margin-right: 10px;
+                }
+
+                &:first-child {
+                    border-left: 0;
+                }
+
+                &:last-child {
+                    border-right: 0;
+                }
+            }
+
+            &:nth-child(even) {
+                background-color: $cp-pink-light;
+            }
+        }
+    }
+
+    &__th {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__wrapper {
+        border-top: 1px solid $cp-blue-dark;
+        border-bottom: 1px solid $cp-blue-dark;
+        padding-right: 5px;
+        overflow: auto;
+        max-height: 500px;
+    }
+
+    &__arrow {
+        border: solid $cp-black;
+        border-width: 0 2px 2px 0;
+        padding: 0;
+        width: 5px;
+        height: 5px;
+        visibility: hidden;
+
+        &--1 {
+            transform: rotate(45deg);
+            visibility: visible;
+        }
+
+        &--2 {
+            visibility: visible;
+            transform: rotate(-135deg);
+        }
+    }
+}

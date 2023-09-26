@@ -1,4 +1,4 @@
-import { type PropsWithChildren, type FC, useMemo } from 'react';
+import { type PropsWithChildren, type FC, useMemo, type MouseEvent } from 'react';
 import './Button.scss';
 import { useClassName } from '../../hooks/useClassName';
 import Icon, { type IconProps } from '../icon/Icon';
@@ -9,7 +9,7 @@ export type ButtonProps = PropsWithChildren<{
   disabled?: boolean;
   loading?: boolean;
   ghost?: boolean;
-  onClick: () => void;
+  onClick: (e: MouseEvent) => void;
 }>;
 
 type SquareButtonProps = Omit<ButtonProps, 'children'> & {

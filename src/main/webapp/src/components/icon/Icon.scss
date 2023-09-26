@@ -1,17 +1,18 @@
 @import '../../styles/colors';
+@import '../../styles/icons';
 
 .cp-icon {
-    display: block;
-    width: 30px;
-    height: 30px;
-    min-width: 30px;
-    min-height: 30px;
-    background-size: 30px 30px;
-    background-color: $cp-black;
+    @include icons;
 
-    &--edit {
-        mask-image: url(../../../resources/icons/edit.svg);
-    }
+    display: block;
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    min-height: 28px;
+    background-color: $cp-black;
+    background-position: center;
+    background-size: 25px;
+    background-repeat: no-repeat;
 
     &--success {
         background-color: $cp-success;

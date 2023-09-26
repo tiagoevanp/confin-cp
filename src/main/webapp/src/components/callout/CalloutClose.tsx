@@ -13,7 +13,7 @@ const CalloutClose: FC<CalloutCloseProps> = ({ onClick, type }) => {
 
   return (
     <div className={closeClassName}>
-      <Button square ghost variant='white' name='edit' onClick={onClick} />
+      <Button square ghost variant='white' name='close' onClick={onClick} />
     </div>
   );
 };
