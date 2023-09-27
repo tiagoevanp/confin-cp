@@ -5,6 +5,8 @@ import Select from './components/select/Select';
 import Button from './components/button/Button';
 import { useDataTable } from './hooks/useDataTable';
 import Table from './components/table/Table';
+import Backdrop from './components/backdrop/Backdrop';
+import Actionbar from './components/actionbar/Actionbar';
 
 const optionsMock = [
   { value: '1', label: 'Option 1' },
@@ -32,52 +34,63 @@ const Page: FC = () => {
   const { data, sortBy } = useDataTable(dataMock);
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        padding: '20px',
-        gap: '10px',
-        flexGrow: 1,
-      }}
-    >
-      <Callout message='blabla' type='success' />
+    <>
+      {' '}
       <div
-        className='app'
         style={{
           display: 'flex',
-          alignItems: 'flex-end',
-          gap: '20px',
+          flexDirection: 'column',
+          padding: '80px',
+          gap: '10px',
+          flexGrow: 1,
         }}
       >
-        <Input
-          type='password'
-          placeholder='Input Password'
-          label='Input 1'
-          hint='lorem ipsum dolor...'
+        <Callout message='blabla' type='success' />
+        <div
+          className='app'
+          style={{
+            display: 'flex',
+            alignItems: 'flex-end',
+            gap: '20px',
+          }}
+        >
+          <Input
+            type='password'
+            placeholder='Input Password'
+            label='Input 1'
+            hint='lorem ipsum dolor...'
+          />
+          <Input type='text' placeholder='Input Text' label='Input 2' disabled />
+          <Select
+            options={optionsMock}
+            disabled
+            label='Teste'
+            hint='Lorem ipsum dolor sit met...'
+          />
+          <Button onClick={() => {}}>Teste</Button>
+        </div>
+        <Table
+          data={data}
+          headers={['Name', 'Email']}
+          sortBy={sortBy}
+          actions={[
+            {
+              edit: (id: any) => {
+                // console.log(id);
+              },
+            },
+            {
+              delete: (id: any) => {
+                // console.log(id);
+              },
+            },
+          ]}
         />
-        <Input type='text' placeholder='Input Text' label='Input 2' disabled />
-        <Select options={optionsMock} disabled label='Teste' hint='Lorem ipsum dolor sit met...' />
-        <Button onClick={() => {}}>Teste</Button>
       </div>
-      <Table
-        data={data}
-        headers={['Name', 'Email']}
-        sortBy={sortBy}
-        actions={[
-          {
-            edit: (id: any) => {
-              // console.log(id);
-            },
-          },
-          {
-            delete: (id: any) => {
-              // console.log(id);
-            },
-          },
-        ]}
-      />
-    </div>
+      <Backdrop>
+        <Actionbar title='Add Something' content={<div></div>} />
+      </Backdrop>
+    </>
   );
 };
 

@@ -1,0 +1,58 @@
+@import '../../styles/colors.scss';
+@import '../../styles/fonts.scss';
+
+.actionbar {
+    display: flex;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+
+    &__button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50px;
+        height: 45px;
+        background-color: $cp-blue-dark;
+        margin-top: 50px;
+        border-radius: 5px 0 0 5px;
+        pointer-events: all;
+        box-shadow: -2px 2px 2px rgba($color: #000000, $alpha: 0.3);
+        z-index: 101;
+
+        &--close {
+            .cp-button, .cp-button:active {
+                transform: rotate(45deg) !important;
+            }
+        }
+
+        .cp-button, .cp-button:active {
+            transform: rotate(0);
+            border-radius: 100%;
+        }
+    }
+
+    &__content {
+        width: 700px;
+        background-color: $cp-white;
+        pointer-events: all;
+        overflow-x: hidden;
+        white-space: nowrap;
+        border-left: 4px solid $cp-blue-dark;
+        box-shadow: -2px 0px 2px rgba($color: #000000, $alpha: 0.3);
+        transition: 0.3s;
+
+        &__header {
+            @include font-semibold;
+
+            padding: 50px;
+            font-size: 36px;
+            color: $cp-blue-dark;
+        }
+
+        &--close {
+            width: 0px;
+        }
+    }
+}

@@ -7,9 +7,13 @@ const App: FC = () => {
   return (
     <>
       <Header />
-      <div style={{ display: 'flex', flexDirection: 'row', alignContent: 'stretch', flexGrow: 1 }}>
+      <div style={{ display: 'flex', alignContent: 'stretch', flexGrow: 1 }}>
         <Sidebar />
-        <Outlet />
+        <div
+          style={{ display: 'flex', position: 'relative', alignContent: 'stretch', flexGrow: 1 }}
+        >
+          <Outlet />
+        </div>
       </div>
     </>
   );

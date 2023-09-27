@@ -42,7 +42,16 @@ const Button: FC<ButtonProps | SquareButtonProps> = (props) => {
   }, [ghost, loading, props, variant]);
 
   return (
-    <button type='button' disabled={disabled} className={className} onClick={onClick}>
+    <button
+      type='button'
+      disabled={disabled}
+      className={className}
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        onClick(e);
+      }}
+    >
       {innerContent}
     </button>
   );
