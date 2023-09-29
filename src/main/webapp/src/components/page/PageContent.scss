@@ -1,0 +1,17 @@
+@import '../../styles/colors.scss';
+@import '../../styles/fonts.scss';
+
+.page-content {
+    display: flex;
+    flex-direction: column;
+    padding: 80px;
+    overflow-x: hidden;
+    gap: 40px;
+
+    h1 {
+        @include font-semibold;
+        color: $cp-blue-dark;
+        font-size: 36px;
+        margin-block: 10px;
+    }
+}

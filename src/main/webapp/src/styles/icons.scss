@@ -26,4 +26,24 @@
     &--settings {
         mask-image: url(../../resources/icons/settings.svg);
     }
+
+    &--success {
+        mask-image: url(../../resources/icons/success.svg);
+    }
+
+    &--warning {
+        mask-image: url(../../resources/icons/warning.svg);
+    }
+
+    &--danger {
+        mask-image: url(../../resources/icons/danger.svg);
+    }
+
+    &--sad {
+        mask-image: url(../../resources/icons/sad.svg);
+    }
+
+    &--empty {
+        mask-image: url(../../resources/icons/empty.svg);
+    }
 }

@@ -8,8 +8,6 @@ const Header: FC = () => {
     <header className='header'>
       <div className='header__links'>
         <Link to='/'>Início</Link>
-        <Link to='#'>Link 2</Link>
-        <Link to='#'>Link 3</Link>
       </div>
       <Avatar name='coelho papeleiro' />
     </header>

@@ -12,8 +12,8 @@
     padding-inline: 10px;
     padding-block: 0;
     border-width: 1px;
-
     border-radius: 5px;
+    flex-grow: 1;
 
     &:focus {
         outline-color: transparent;
@@ -32,6 +32,11 @@
 
     &::-webkit-inner-spin-button {
         -webkit-appearance: none;
+    }
+
+    &__wrapper {
+        display: flex;
+        flex-direction: column;
     }
 }
 

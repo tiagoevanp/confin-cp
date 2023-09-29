@@ -16,7 +16,7 @@ const Callout: FC<CalloutProps> = ({ type, message }) => {
   return (
     <div className={className}>
       <div className='callout__innerContent'>
-        <Icon name='edit' variant={type} />
+        <Icon name={type} variant={type} />
         <div className='callout__innerContent__text'>{message}</div>
       </div>
       <CalloutClose

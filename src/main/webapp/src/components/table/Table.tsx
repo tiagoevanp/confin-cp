@@ -2,6 +2,9 @@ import { useState, type FC, useEffect } from 'react';
 import Button from '../button/Button';
 import './Table.scss';
 import { useClockwise } from '../../hooks/useClockwise';
+import TableSkeleton from './TableSkeleton';
+import TableEmpty from './TableEmpty';
+import TableError from './TableError';
 
 type Action =
   | {
@@ -13,8 +16,9 @@ type Action =
 
 type TableProps = {
   data: Array<{ id: string; values: string[] }>;
-  sortBy?: (index: number, direction: number) => void;
   headers: string[];
+  loading?: boolean;
+  sortBy?: (index: number, direction: number) => void;
   actions?: Action[];
 };
 
@@ -22,7 +26,7 @@ const isEdit = (action: Action): action is { edit: (id: string) => void } => {
   return (action as { edit: (id: string) => void }).edit !== undefined;
 };
 
-const Table: FC<TableProps> = ({ data, headers, sortBy, actions }) => {
+const Table: FC<TableProps> = ({ data, headers, loading, sortBy, actions }) => {
   const [headerIndex, setHeaderIndex] = useState<number | null>(null);
   const [state, tick, resetClock] = useClockwise(3);
 
@@ -31,6 +35,12 @@ const Table: FC<TableProps> = ({ data, headers, sortBy, actions }) => {
       sortBy?.(headerIndex, state);
     }
   }, [headerIndex, sortBy, state]);
+
+  if (loading ?? false) return <TableSkeleton />;
+
+  if (data === undefined) return <TableError />;
+
+  if (data.length === 0) return <TableEmpty />;
 
   return (
     <div className='cp-table__wrapper'>

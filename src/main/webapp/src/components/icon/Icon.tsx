@@ -4,7 +4,19 @@ import { useClassName } from '../../hooks/useClassName';
 import { type ButtonProps } from '../button/Button';
 
 export type IconProps = {
-  name: 'edit' | 'delete' | 'close' | 'home' | 'logout' | 'clipboard' | 'settings';
+  name:
+    | 'edit'
+    | 'delete'
+    | 'close'
+    | 'home'
+    | 'logout'
+    | 'clipboard'
+    | 'settings'
+    | 'success'
+    | 'danger'
+    | 'warning'
+    | 'sad'
+    | 'empty';
   variant?: ButtonProps['variant'] | 'blue-dark';
 };
 

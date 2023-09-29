@@ -1,12 +1,13 @@
 import { type FC } from 'react';
-import Callout from './components/callout/Callout';
-import Input from './components/input/Input';
-import Select from './components/select/Select';
-import Button from './components/button/Button';
-import { useDataTable } from './hooks/useDataTable';
-import Table from './components/table/Table';
-import Backdrop from './components/backdrop/Backdrop';
-import Actionbar from './components/actionbar/Actionbar';
+import Callout from '../components/callout/Callout';
+import Input from '../components/input/Input';
+import Select from '../components/select/Select';
+import Button from '../components/button/Button';
+import { useDataTable } from '../hooks/useDataTable';
+import Table from '../components/table/Table';
+import Actionbar from '../components/actionbar/Actionbar';
+import PageContent from '../components/page/PageContent';
+import PageActionBar from '../components/page/PageActionbar';
 
 const optionsMock = [
   { value: '1', label: 'Option 1' },
@@ -30,22 +31,14 @@ const dataMock = [
   { id: '13', name: 'Teste 2', email: 't3@t.com' },
 ];
 
-const Page: FC = () => {
+const Dashboard: FC = () => {
   const { data, sortBy } = useDataTable(dataMock);
 
   return (
     <>
-      {' '}
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          padding: '80px',
-          gap: '10px',
-          flexGrow: 1,
-        }}
-      >
+      <PageContent>
         <Callout message='blabla' type='success' />
+        <h1>Dashboard</h1>
         <div
           className='app'
           style={{
@@ -86,12 +79,12 @@ const Page: FC = () => {
             },
           ]}
         />
-      </div>
-      <Backdrop>
+      </PageContent>
+      <PageActionBar>
         <Actionbar title='Add Something' content={<div></div>} />
-      </Backdrop>
+      </PageActionBar>
     </>
   );
 };
 
-export default Page;
+export default Dashboard;

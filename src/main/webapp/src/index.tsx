@@ -5,7 +5,7 @@ import App from './App';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Error from './pages/Error';
 import Logs from './pages/Logs';
-import Page from './Page';
+import Dashboard from './pages/Dashboard';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
@@ -20,11 +20,11 @@ const router = createBrowserRouter([
       },
       {
         path: 'dashboard',
-        element: <Page />,
+        element: <Dashboard />,
       },
       {
         path: 'Logs',
-        element: <Logs />, // TODO: Logs page
+        element: <Logs />,
       },
     ],
   },
