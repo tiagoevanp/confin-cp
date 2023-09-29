@@ -12,7 +12,11 @@ export const useAxios = (method: HttpMethod, url: string): UseAxiosReturn => {
       try {
         setLoading(true);
 
-        const response = await axios({ method, url, data });
+        const response = await axios({
+          method,
+          url: `${process.env.REACT_APP_API_ENDPOINT}${url}`,
+          data,
+        });
 
         return response.data;
       } catch (error) {
