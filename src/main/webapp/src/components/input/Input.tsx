@@ -15,11 +15,25 @@ export type InputProps = {
   hidden?: boolean;
   onBlur?: ChangeEventHandler<HTMLInputElement>;
   onChange?: ChangeEventHandler<HTMLInputElement>;
+  value?: string;
 };
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
   (
-    { type, name, disabled, placeholder, label, hint, style, required, hidden, onChange, onBlur },
+    {
+      type,
+      name,
+      disabled,
+      placeholder,
+      label,
+      hint,
+      style,
+      required,
+      hidden,
+      onChange,
+      onBlur,
+      value,
+    },
     ref,
   ) => {
     return (
@@ -37,6 +51,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           hidden={hidden}
           onChange={onChange}
           onBlur={onBlur}
+          value={value}
         />
       </div>
     );

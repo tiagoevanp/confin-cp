@@ -9,10 +9,12 @@ import {
   type SortingState,
   getCoreRowModel,
   getSortedRowModel,
+  getFilteredRowModel,
   type FilterFn,
 } from '@tanstack/react-table';
 import TableFilter from './TableFilter';
 import { rankItem } from '@tanstack/match-sorter-utils';
+import { useDebounce } from '../../hooks/useDebounce';
 
 type TableProps = {
   data: any;
@@ -21,7 +23,6 @@ type TableProps = {
 };
 
 const filterFn: FilterFn<any> = (row, columnId, value, addMeta) => {
-  console.log(row, columnId, value, addMeta);
   const itemRank = rankItem(row.getValue(columnId), value);
 
   addMeta({
@@ -35,21 +36,21 @@ const Table: FC<TableProps> = ({ data, columns, loading }) => {
   const [globalFilter, setGlobalFilter] = useState<string>('');
   const [sorting, setSorting] = useState<SortingState>([]);
 
+  const globalFilterDebounced = useDebounce(globalFilter, 500);
+
   const table = useReactTable({
     data,
     columns,
     state: {
       sorting,
-      globalFilter,
+      globalFilter: globalFilterDebounced,
     },
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    onGlobalFilterChange: () => {
-      console.log('teste');
-    },
+    getFilteredRowModel: getFilteredRowModel(),
+    onGlobalFilterChange: setGlobalFilter,
     globalFilterFn: filterFn,
-    debugAll: true,
   });
 
   if (loading ?? false) return <TableSkeleton />;
@@ -61,9 +62,10 @@ const Table: FC<TableProps> = ({ data, columns, loading }) => {
   return (
     <>
       <TableFilter
-        onClick={(value) => {
+        onChange={(value) => {
           setGlobalFilter(value ?? '');
         }}
+        value={globalFilter}
       />
       <div className='cp-table__wrapper'>
         <table className='cp-table'>
