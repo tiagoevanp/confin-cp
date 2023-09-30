@@ -5,7 +5,7 @@ import br.com.cofincp.entities.helpers.Contact;
 import io.quarkus.mongodb.panache.PanacheMongoEntity;
 import io.quarkus.mongodb.panache.common.MongoEntity;
 
-@MongoEntity(collection="supplier")
+@MongoEntity(collection = "supplier")
 public class SupplierEntity extends PanacheMongoEntity {
     public String name;
     public String marketplace;

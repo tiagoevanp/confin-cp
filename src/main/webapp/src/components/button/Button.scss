@@ -70,6 +70,10 @@
         }
     }
 
+    &--grow {
+        flex-grow: 1;
+    }
+
     &:focus {
         outline-color: transparent;
         outline-style:solid;

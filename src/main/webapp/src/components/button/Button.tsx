@@ -5,11 +5,13 @@ import Icon, { type IconProps } from '../icon/Icon';
 import ButtonLoader from './ButtonLoader';
 
 export type ButtonProps = PropsWithChildren<{
+  type?: 'button' | 'submit' | 'reset';
   variant?: 'success' | 'danger' | 'warning' | 'white';
   disabled?: boolean;
   loading?: boolean;
   ghost?: boolean;
-  onClick: (e: MouseEvent) => void;
+  grow?: boolean;
+  onClick?: (e: MouseEvent) => void;
 }>;
 
 type SquareButtonProps = Omit<ButtonProps, 'children'> & {
@@ -21,11 +23,11 @@ const isSquare = (props: ButtonProps | SquareButtonProps): props is SquareButton
   'square' in props && 'name' in props;
 
 const Button: FC<ButtonProps | SquareButtonProps> = (props) => {
-  const { disabled, ghost, loading, variant, onClick } = props;
+  const { type, disabled, ghost, grow, loading, variant, onClick } = props;
 
   const conditionalProps = isSquare(props)
     ? { square: props.square, variant, ghost }
-    : { variant, ghost };
+    : { variant, ghost, grow };
 
   const className = useClassName('cp-button', conditionalProps);
 
@@ -41,15 +43,19 @@ const Button: FC<ButtonProps | SquareButtonProps> = (props) => {
     return props.children;
   }, [ghost, loading, props, variant]);
 
+  if (type === 'submit') {
+    return <input type='submit' className={className} />;
+  }
+
   return (
     <button
-      type='button'
+      type={type ?? 'button'}
       disabled={disabled}
       className={className}
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
-        onClick(e);
+        onClick?.(e);
       }}
     >
       {innerContent}

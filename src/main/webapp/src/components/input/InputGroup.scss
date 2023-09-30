@@ -1,0 +1,31 @@
+@import '../../styles/colors.scss';
+@import '../../styles/fonts.scss';
+
+.cp-input-group {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: flex-end;
+    flex-grow: 1;
+    gap: 10px;
+    padding-inline: 5px;
+    padding-block: 10px;
+    border-block: solid 2px $cp-blue-dark;
+
+    &__label {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+
+        button {
+            i {
+                transform: rotate(45deg);
+            }
+        }
+
+        h3{
+            @include font-semibold;
+            color: $cp-black;
+            margin: 0;
+        }
+    }
+}

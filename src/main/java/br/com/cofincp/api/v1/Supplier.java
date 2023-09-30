@@ -42,7 +42,7 @@ public class Supplier implements ICrud<SupplierEntity> {
         try {
             SupplierEntity supplier = SupplierEntity.findById(new ObjectId(id));
 
-            if(supplier == null) {
+            if (supplier == null) {
                 throw new NotFoundException();
             }
 
@@ -53,7 +53,7 @@ public class Supplier implements ICrud<SupplierEntity> {
     }
 
     @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Override
     public Response create(SupplierEntity supplier) {
@@ -89,7 +89,7 @@ public class Supplier implements ICrud<SupplierEntity> {
         try {
             SupplierEntity supplier = SupplierEntity.findById(new ObjectId(id));
 
-            if(supplier == null) {
+            if (supplier == null) {
                 throw new NotFoundException();
             }
 

@@ -15,13 +15,7 @@ const Actionbar: FC<ActionbarProps> = ({ title, content }) => {
   const buttonClassName = useClassName('actionbar__button', { close: hidden });
 
   return (
-    <aside
-      className='actionbar'
-      onClick={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-      }}
-    >
+    <aside className='actionbar'>
       <div className={buttonClassName}>
         <Button
           ghost

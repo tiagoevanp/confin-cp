@@ -19,8 +19,8 @@ const Backdrop: FC<PropsWithChildren> = ({ children }) => {
     <BackdropContext.Provider value={contextValue}>
       <div
         className={className}
-        onClick={() => {
-          setHidden();
+        onClickCapture={(e) => {
+          e.currentTarget === e.target && setHidden();
         }}
       >
         {children}

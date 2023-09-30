@@ -1,40 +1,56 @@
-import { useState, type FC, useEffect } from 'react';
-import Button from '../button/Button';
+import { useState, type FC } from 'react';
 import './Table.scss';
-import { useClockwise } from '../../hooks/useClockwise';
 import TableSkeleton from './TableSkeleton';
 import TableEmpty from './TableEmpty';
 import TableError from './TableError';
-
-type Action =
-  | {
-      edit: (id: string) => void;
-    }
-  | {
-      delete: (id: string) => void;
-    };
+import {
+  flexRender,
+  useReactTable,
+  type SortingState,
+  getCoreRowModel,
+  getSortedRowModel,
+  type FilterFn,
+} from '@tanstack/react-table';
+import TableFilter from './TableFilter';
+import { rankItem } from '@tanstack/match-sorter-utils';
 
 type TableProps = {
-  data: Array<{ id: string; values: string[] }>;
-  headers: string[];
+  data: any;
+  columns: any;
   loading?: boolean;
-  sortBy?: (index: number, direction: number) => void;
-  actions?: Action[];
 };
 
-const isEdit = (action: Action): action is { edit: (id: string) => void } => {
-  return (action as { edit: (id: string) => void }).edit !== undefined;
+const filterFn: FilterFn<any> = (row, columnId, value, addMeta) => {
+  console.log(row, columnId, value, addMeta);
+  const itemRank = rankItem(row.getValue(columnId), value);
+
+  addMeta({
+    itemRank,
+  });
+
+  return itemRank.passed;
 };
 
-const Table: FC<TableProps> = ({ data, headers, loading, sortBy, actions }) => {
-  const [headerIndex, setHeaderIndex] = useState<number | null>(null);
-  const [state, tick, resetClock] = useClockwise(3);
+const Table: FC<TableProps> = ({ data, columns, loading }) => {
+  const [globalFilter, setGlobalFilter] = useState<string>('');
+  const [sorting, setSorting] = useState<SortingState>([]);
 
-  useEffect(() => {
-    if (headerIndex !== null) {
-      sortBy?.(headerIndex, state);
-    }
-  }, [headerIndex, sortBy, state]);
+  const table = useReactTable({
+    data,
+    columns,
+    state: {
+      sorting,
+      globalFilter,
+    },
+    onSortingChange: setSorting,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    onGlobalFilterChange: () => {
+      console.log('teste');
+    },
+    globalFilterFn: filterFn,
+    debugAll: true,
+  });
 
   if (loading ?? false) return <TableSkeleton />;
 
@@ -43,63 +59,51 @@ const Table: FC<TableProps> = ({ data, headers, loading, sortBy, actions }) => {
   if (data.length === 0) return <TableEmpty />;
 
   return (
-    <div className='cp-table__wrapper'>
-      <table className='cp-table'>
-        <thead>
-          <tr>
-            {headers.map((item, index) => (
-              <th
-                key={index}
-                onClick={() => {
-                  setHeaderIndex(index);
-                  if (headerIndex !== index) {
-                    resetClock();
-                  }
-                  tick();
-                }}
-              >
-                <div className='cp-table__th'>
-                  {item}
-                  <i
-                    className={`cp-table__arrow ${
-                      headerIndex === index ? `cp-table__arrow--${state}` : ''
-                    }`}
-                  />
-                </div>
-              </th>
-            ))}
-            {actions !== undefined && <th>Ações</th>}
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((row, index) => {
-            return (
-              <tr key={index}>
-                {row.values.map((item, index) => {
-                  return <td key={index}>{item}</td>;
-                })}
-                {actions !== undefined && (
-                  <td>
-                    {actions.map((action, index) => {
-                      return (
-                        <Button
-                          key={index}
-                          square
-                          name={isEdit(action) ? 'edit' : 'delete'}
-                          onClick={(e) => {
-                            isEdit(action) ? action.edit(row.id) : action.delete(row.id);
-                          }}
-                        />
-                      );
-                    })}
-                  </td>
-                )}
+    <>
+      <TableFilter
+        onClick={(value) => {
+          setGlobalFilter(value ?? '');
+        }}
+      />
+      <div className='cp-table__wrapper'>
+        <table className='cp-table'>
+          <thead>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <th key={header.id}>
+                    <div
+                      className={`cp-table__th ${
+                        header.column.getCanSort() ? 'cp-table__th--sortable' : ''
+                      }`}
+                      onClick={header.column.getToggleSortingHandler()}
+                    >
+                      {flexRender(header.column.columnDef.header, header.getContext())}
+                      <i
+                        className={`cp-table__arrow ${
+                          header.column.getIsSorted() !== false
+                            ? `cp-table__arrow--${header.column.getIsSorted()}`
+                            : ''
+                        }`}
+                      />
+                    </div>
+                  </th>
+                ))}
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
+            ))}
+          </thead>
+          <tbody>
+            {table.getRowModel().rows.map((row) => (
+              <tr key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
   );
 };
 
