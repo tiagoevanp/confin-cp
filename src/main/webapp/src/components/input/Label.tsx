@@ -1,12 +1,13 @@
-import { type PropsWithChildren, type FC } from 'react';
+import { type FC } from 'react';
 import { useClassName } from '../../hooks/useClassName';
 
-type LabelProps = PropsWithChildren<{
+type LabelProps = {
   text?: string;
   disabled?: boolean;
-}>;
+  hidden?: boolean;
+};
 
-const Label: FC<LabelProps> = ({ disabled, text, children }) => {
+const Label: FC<LabelProps> = ({ disabled, text, hidden }) => {
   const className = useClassName('cp-hint', {
     disabled,
   });
@@ -16,7 +17,7 @@ const Label: FC<LabelProps> = ({ disabled, text, children }) => {
   }
 
   return (
-    <label className={className}>
+    <label hidden={hidden} className={className}>
       <div className='cp-label--text'>{text}</div>
     </label>
   );

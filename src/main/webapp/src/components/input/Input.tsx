@@ -38,8 +38,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
   ) => {
     return (
       <div className='cp-input__wrapper' style={style}>
-        <Label text={label} disabled={disabled} />
-        <Hint text={hint} disabled={disabled} />
+        <Label text={label} disabled={disabled} hidden={hidden} />
+        <Hint text={hint} disabled={disabled} hidden={hidden} />
         <input
           ref={ref}
           type={type}

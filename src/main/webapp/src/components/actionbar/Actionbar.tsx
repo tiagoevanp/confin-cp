@@ -2,7 +2,7 @@ import { useContext, type FC, type ReactElement } from 'react';
 import './Actionbar.scss';
 import Button from '../button/Button';
 import { useClassName } from '../../hooks/useClassName';
-import BackdropContext from '../../contexts/BackdropContext';
+import BackdropContext from '../../contexts/ActionbarContext';
 
 type ActionbarProps = {
   title: string;
@@ -10,7 +10,7 @@ type ActionbarProps = {
 };
 
 const Actionbar: FC<ActionbarProps> = ({ title, content }) => {
-  const { hidden, setHidden } = useContext(BackdropContext);
+  const { hidden, toggle } = useContext(BackdropContext);
   const className = useClassName('actionbar__content', { close: hidden });
   const buttonClassName = useClassName('actionbar__button', { close: hidden });
 
@@ -23,7 +23,7 @@ const Actionbar: FC<ActionbarProps> = ({ title, content }) => {
           name='close'
           variant='white'
           onClick={() => {
-            setHidden();
+            toggle();
           }}
         />
       </div>

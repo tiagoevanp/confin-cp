@@ -1,5 +1,7 @@
 import { createColumnHelper } from '@tanstack/react-table';
 import { type Supplier } from '../../definitions/api/Supplier';
+import DeleteAction from './DeleteAction';
+import EditAction from './EditActions';
 
 const columnHelper = createColumnHelper<Supplier>();
 
@@ -45,5 +47,15 @@ export const tableColumns = [
     header: 'Número de Telefone',
     cell: (info) => info.getValue()?.join(', '),
     sortDescFirst: false,
+  }),
+  columnHelper.accessor((row) => 'actions', {
+    id: 'actions',
+    header: () => 'Actions',
+    cell: ({ row }) => (
+      <>
+        <EditAction row={row.original} />
+        <DeleteAction id={row.original.id} />
+      </>
+    ),
   }),
 ];

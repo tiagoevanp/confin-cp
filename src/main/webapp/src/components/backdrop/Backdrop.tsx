@@ -1,31 +1,21 @@
-import { type PropsWithChildren, type FC, useMemo } from 'react';
-import BackdropContext from '../../contexts/BackdropContext';
+import { type PropsWithChildren, type FC, useContext } from 'react';
+import BackdropContext from '../../contexts/ActionbarContext';
 import './Backdrop.scss';
-import { useToggle } from '../../hooks/useToggle';
 import { useClassName } from '../../hooks/useClassName';
 
 const Backdrop: FC<PropsWithChildren> = ({ children }) => {
-  const [hidden, setHidden] = useToggle(true);
+  const { hidden, toggle } = useContext(BackdropContext);
   const className = useClassName('backdrop', { hidden });
-  const contextValue = useMemo(
-    () => ({
-      hidden,
-      setHidden,
-    }),
-    [hidden, setHidden],
-  );
 
   return (
-    <BackdropContext.Provider value={contextValue}>
-      <div
-        className={className}
-        onClickCapture={(e) => {
-          e.currentTarget === e.target && setHidden();
-        }}
-      >
-        {children}
-      </div>
-    </BackdropContext.Provider>
+    <div
+      className={className}
+      onClickCapture={(e) => {
+        e.currentTarget === e.target && toggle();
+      }}
+    >
+      {children}
+    </div>
   );
 };
 

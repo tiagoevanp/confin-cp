@@ -6,7 +6,7 @@ import { useAxios } from '../../hooks/useAxios';
 import Button from '../../components/button/Button';
 import InputGroup from '../../components/input/InputGroup';
 
-type Inputs = {
+export type SupplierInputs = {
   id: string;
   name: string;
   marketplace: string;
@@ -21,29 +21,52 @@ type Inputs = {
   }>;
 };
 
-const AddSupplier: FC = () => {
-  const { register, handleSubmit, reset, control } = useForm<Inputs>({});
+type AddSupplierProps = {
+  row?: SupplierInputs;
+};
+
+const AddSupplier: FC<AddSupplierProps> = ({ row }) => {
+  const { register, handleSubmit, reset, control } = useForm({ values: { ...row } });
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'contact',
   });
-  const { request, loading } = useAxios('POST', 'supplier');
+  const { request: addRequest, loading: addLoading } = useAxios('POST', 'supplier');
+  const { request: updateRequest, loading: updateLoading } = useAxios('PUT', `supplier/${row?.id}`);
 
-  const onSubmit: SubmitHandler<Inputs> = async ({ id, contact, ...data }) => {
+  const onSubmit: SubmitHandler<SupplierInputs> = async ({ id, contact, ...data }) => {
+    const mappedContact =
+      contact.length > 0
+        ? {
+            phone_number: contact.map((item) => item.phone_number),
+            email: contact.map((item) => item.email),
+          }
+        : undefined;
+
     if (id === '') {
-      await request({
-        contact: {
-          phone_number: contact.map((item) => item.phone_number),
-          email: contact.map((item) => item.email),
-        },
+      await addRequest({
+        contact: mappedContact,
+        ...data,
+      });
+    } else {
+      await updateRequest({
+        id,
+        contact: mappedContact,
         ...data,
       });
     }
   };
 
   return (
-    <Form handleSubmit={handleSubmit} onSubmit={onSubmit} reset={reset} loading={loading}>
-      <Input {...register('id')} type='text' hidden />
+    <Form
+      handleSubmit={handleSubmit}
+      onSubmit={onSubmit}
+      reset={() => {
+        reset();
+      }}
+      loading={addLoading || updateLoading}
+    >
+      <Input {...register('id')} type='text' hidden disabled label='ID' />
       <Input
         {...register('name', {
           required: true,

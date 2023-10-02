@@ -4,9 +4,10 @@ import { useClassName } from '../../hooks/useClassName';
 type HintProps = PropsWithChildren<{
   text?: string;
   disabled?: boolean;
+  hidden?: boolean;
 }>;
 
-const Hint: FC<HintProps> = ({ text, children, disabled }) => {
+const Hint: FC<HintProps> = ({ text, hidden, disabled }) => {
   const className = useClassName('cp-hint', {
     disabled,
   });
@@ -16,7 +17,7 @@ const Hint: FC<HintProps> = ({ text, children, disabled }) => {
   }
 
   return (
-    <div className={className}>
+    <div className={className} hidden={hidden}>
       <div className='cp-hint--text'>{text}</div>
     </div>
   );
