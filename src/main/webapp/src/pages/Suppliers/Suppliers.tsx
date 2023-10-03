@@ -9,7 +9,7 @@ import ActionbarContext from '../../contexts/ActionbarContext';
 import Actionbar from '../../components/actionbar/Actionbar';
 
 const Suppliers: FC = () => {
-  const { data, loading } = useDataFetch('supplier');
+  const { data, loading, refetch } = useDataFetch('supplier');
 
   const [hidden, setHidden] = useState(true);
 
@@ -22,8 +22,11 @@ const Suppliers: FC = () => {
       show: () => {
         setHidden(false);
       },
+      reloadData: () => {
+        refetch();
+      },
     }),
-    [hidden, setHidden],
+    [hidden, refetch],
   );
 
   return (

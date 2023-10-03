@@ -1,12 +1,13 @@
-import { useEffect, type FC, useState } from 'react';
+import { useEffect, type FC, useState, useContext } from 'react';
 import Form from '../../components/form/Form';
 import Input from '../../components/input/Input';
 import { useForm, type SubmitHandler, useFieldArray, Controller } from 'react-hook-form';
 import { useAxios } from '../../hooks/useAxios';
 import InputArray from '../../components/input/InputArray';
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import { type Supplier } from '../../definitions/api/Supplier';
 import { usePathResolver } from '../../hooks/usePathResolver';
+import ActionbarContext from '../../contexts/ActionbarContext';
 
 type SupplierInputs = {
   id: string;
@@ -20,10 +21,12 @@ type SupplierInputs = {
 };
 
 const AddSupplier: FC = () => {
-  const { action } = usePathResolver();
+  const { page, action } = usePathResolver();
   const data = useLoaderData() as { payload: Supplier };
   const [contactPhone, setContactPhone] = useState([{ value: '' }]);
   const [contactEmail, setContactEmail] = useState([{ value: '' }]);
+  const { reloadData } = useContext(ActionbarContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (data != null) {
@@ -75,7 +78,7 @@ const AddSupplier: FC = () => {
     contact_phone_number,
     ...data
   }) => {
-    if (id === '') {
+    if (id === undefined) {
       await addRequest({
         contact_email: contact_email.map((email) => email.value),
         contact_phone_number: contact_phone_number.map((phone) => phone.value),
@@ -89,6 +92,8 @@ const AddSupplier: FC = () => {
         ...data,
       });
     }
+    navigate(`/${page}`);
+    reloadData();
   };
 
   return (

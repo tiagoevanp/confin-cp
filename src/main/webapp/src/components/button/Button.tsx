@@ -44,7 +44,11 @@ const Button: FC<ButtonProps | SquareButtonProps> = (props) => {
   }, [ghost, loading, props, variant]);
 
   if (type === 'submit') {
-    return <input type='submit' className={className} />;
+    return (
+      <button type='submit' className={className}>
+        {innerContent}
+      </button>
+    );
   }
 
   return (
