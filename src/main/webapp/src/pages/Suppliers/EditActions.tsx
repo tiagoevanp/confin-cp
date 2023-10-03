@@ -1,23 +1,20 @@
-import { useContext, type FC } from 'react';
+import { type FC } from 'react';
 import Button from '../../components/button/Button';
-import ActionbarContext from '../../contexts/ActionbarContext';
+import { useNavigate } from 'react-router-dom';
 
 type EditActionProps = {
-  row: any;
+  id: string;
 };
 
-const EditAction: FC<EditActionProps> = ({ row }) => {
-  const { hidden, toggle, setRow } = useContext(ActionbarContext);
+const EditAction: FC<EditActionProps> = ({ id }) => {
+  const navigate = useNavigate();
 
   return (
     <Button
       square
       name='edit'
       onClick={() => {
-        if (hidden) {
-          toggle();
-          setRow(row);
-        }
+        navigate(`./edit/${id}`);
       }}
     />
   );

@@ -7,6 +7,8 @@ import Error from './pages/Error';
 import Logs from './pages/Logs';
 import Dashboard from './pages/Dashboard';
 import Suppliers from './pages/Suppliers/Suppliers';
+import axios from 'axios';
+import AddSupplier from './pages/Suppliers/AddSupplier';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
@@ -30,6 +32,18 @@ const router = createBrowserRouter([
       {
         path: 'suppliers',
         element: <Suppliers />,
+        children: [
+          {
+            path: 'add',
+            element: <AddSupplier />,
+          },
+          {
+            path: 'edit/:id',
+            element: <AddSupplier />,
+            loader: async ({ params }) =>
+              (await axios.get(`${process.env.REACT_APP_API_ENDPOINT}supplier/${params.id}`)).data,
+          },
+        ],
       },
     ],
   },

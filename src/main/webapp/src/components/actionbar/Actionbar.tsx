@@ -1,18 +1,25 @@
-import { useContext, type FC, type ReactElement } from 'react';
+import { useContext, type FC, useEffect } from 'react';
 import './Actionbar.scss';
 import Button from '../button/Button';
 import { useClassName } from '../../hooks/useClassName';
 import BackdropContext from '../../contexts/ActionbarContext';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { usePathResolver } from '../../hooks/usePathResolver';
 
-type ActionbarProps = {
-  title: string;
-  content: ReactElement;
-};
-
-const Actionbar: FC<ActionbarProps> = ({ title, content }) => {
-  const { hidden, toggle } = useContext(BackdropContext);
+const Actionbar: FC = () => {
+  const { hidden, hide, show } = useContext(BackdropContext);
   const className = useClassName('actionbar__content', { close: hidden });
   const buttonClassName = useClassName('actionbar__button', { close: hidden });
+  const { page, action } = usePathResolver();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (action === 'add' || action === 'edit') {
+      show();
+    } else {
+      hide();
+    }
+  });
 
   return (
     <aside className='actionbar'>
@@ -23,13 +30,16 @@ const Actionbar: FC<ActionbarProps> = ({ title, content }) => {
           name='close'
           variant='white'
           onClick={() => {
-            toggle();
+            if (action === 'add' || action === 'edit') {
+              navigate(`/${page}`);
+            } else {
+              navigate('./add');
+            }
           }}
         />
       </div>
       <div className={className}>
-        <div className='actionbar__content__header'>{title}</div>
-        {content}
+        <Outlet />
       </div>
     </aside>
   );

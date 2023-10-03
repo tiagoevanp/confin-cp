@@ -2,14 +2,14 @@ import { createContext } from 'react';
 
 type ActionbarContextValue = {
   hidden: boolean;
-  toggle: () => void;
-  setRow: (value: any) => void;
+  hide: () => void;
+  show: () => void;
 };
 
 const ActionbarContext = createContext<ActionbarContextValue>({
   hidden: true,
-  toggle: () => {},
-  setRow: () => {},
+  hide: () => {},
+  show: () => {},
 });
 
 export default ActionbarContext;

@@ -54,7 +54,7 @@ export const tableColumns = [
     header: () => 'Actions',
     cell: ({ row }) => (
       <>
-        <EditAction row={row.original} />
+        <EditAction id={row.original.id} />
         <DeleteAction id={row.original.id} />
       </>
     ),

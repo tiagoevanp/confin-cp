@@ -1,21 +1,48 @@
-import { type FC } from 'react';
+import { useEffect, type FC, useState } from 'react';
 import Form from '../../components/form/Form';
 import Input from '../../components/input/Input';
 import { useForm, type SubmitHandler, useFieldArray, Controller } from 'react-hook-form';
 import { useAxios } from '../../hooks/useAxios';
 import InputArray from '../../components/input/InputArray';
-import { type SupplierInputs } from './Suppliers';
+import { useLoaderData } from 'react-router-dom';
+import { type Supplier } from '../../definitions/api/Supplier';
+import { usePathResolver } from '../../hooks/usePathResolver';
 
-type AddSupplierProps = {
-  row?: SupplierInputs;
+type SupplierInputs = {
+  id: string;
+  name: string;
+  marketplace: string;
+  address_street: string;
+  address_number: string;
+  address_zip_code: string;
+  contact_phone_number: Array<{ value: string }>;
+  contact_email: Array<{ value: string }>;
 };
 
-const AddSupplier: FC<AddSupplierProps> = ({ row: { ...row } }) => {
+const AddSupplier: FC = () => {
+  const { action } = usePathResolver();
+  const data = useLoaderData() as { payload: Supplier };
+  const [contactPhone, setContactPhone] = useState([{ value: '' }]);
+  const [contactEmail, setContactEmail] = useState([{ value: '' }]);
+
+  useEffect(() => {
+    if (data != null) {
+      const { contact_phone_number, contact_email } = data.payload;
+
+      setContactPhone(contact_phone_number.map((value) => ({ value })));
+      setContactEmail(contact_email.map((value) => ({ value })));
+    }
+  }, [data]);
+
   const { register, handleSubmit, reset, control } = useForm({
-    values: { ...row },
+    values: {
+      ...data?.payload,
+      contact_phone_number: contactPhone,
+      contact_email: contactEmail,
+    },
     defaultValues: {
-      contact_phone_number: [{ value: '' }],
       contact_email: [{ value: '' }],
+      contact_phone_number: [{ value: '' }],
     },
   });
   const {
@@ -37,7 +64,10 @@ const AddSupplier: FC<AddSupplierProps> = ({ row: { ...row } }) => {
   });
 
   const { request: addRequest, loading: addLoading } = useAxios('POST', 'supplier');
-  const { request: updateRequest, loading: updateLoading } = useAxios('PUT', `supplier/${row?.id}`);
+  const { request: updateRequest, loading: updateLoading } = useAxios(
+    'PUT',
+    `supplier/${data?.payload.id}`,
+  );
 
   const onSubmit: SubmitHandler<SupplierInputs> = async ({
     id,
@@ -62,67 +92,72 @@ const AddSupplier: FC<AddSupplierProps> = ({ row: { ...row } }) => {
   };
 
   return (
-    <Form
-      handleSubmit={handleSubmit}
-      onSubmit={onSubmit}
-      reset={() => {
-        reset();
-      }}
-      loading={addLoading || updateLoading}
-    >
-      <Input {...register('id')} type='text' hidden disabled label='ID' />
-      <Input
-        {...register('name', {
-          required: true,
-        })}
-        label='Nome'
-        type='text'
-      />
-      <Input {...register('marketplace', { required: true })} label='Marketplace' type='text' />
-      <Input {...register('address_street')} label='Rua' type='text' />
-      <Input {...register('address_number')} label='Número' type='number' />
-      <Input {...register('address_zip_code')} label='CEP' type='text' />
-      {phoneFields.map((field, index) => (
-        <Controller
-          key={field.id}
-          control={control}
-          name={`contact_phone_number.${index}.value`}
-          render={({ field: { name, value, onChange, onBlur, ref } }) => (
-            <InputArray
-              label={`Telefone ${index + 1}`}
-              index={index}
-              name={name}
-              onChange={onChange}
-              onBlur={onBlur}
-              value={value}
-              ref={ref}
-              append={phoneAppend}
-              remove={phoneRemove}
-            />
-          )}
+    <>
+      <div className='actionbar__content__header'>
+        {action === 'add' ? 'Adicionar Fornecedor' : 'Editar Fornecedor'}
+      </div>
+      <Form
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
+        reset={() => {
+          reset();
+        }}
+        loading={addLoading || updateLoading}
+      >
+        <Input {...register('id')} type='text' hidden disabled label='ID' />
+        <Input
+          {...register('name', {
+            required: true,
+          })}
+          label='Nome'
+          type='text'
         />
-      ))}
-      {emailFields.map((field, index) => (
-        <Controller
-          key={field.id}
-          control={control}
-          name={`contact_email.${index}.value`}
-          render={({ field: { name, value, onChange, onBlur, ref } }) => (
-            <InputArray
-              label={`Email ${index + 1}`}
-              index={index}
-              name={name}
-              onChange={onChange}
-              onBlur={onBlur}
-              value={value}
-              ref={ref}
-              append={emailAppend}
-              remove={emailRemove}
-            />
-          )}
-        />
-      ))}
-    </Form>
+        <Input {...register('marketplace', { required: true })} label='Marketplace' type='text' />
+        <Input {...register('address_street')} label='Rua' type='text' />
+        <Input {...register('address_number')} label='Número' type='number' />
+        <Input {...register('address_zip_code')} label='CEP' type='text' />
+        {phoneFields.map((field, index) => (
+          <Controller
+            key={field.id}
+            control={control}
+            name={`contact_phone_number.${index}.value`}
+            render={({ field: { name, value, onChange, onBlur, ref } }) => (
+              <InputArray
+                label={`Telefone ${index + 1}`}
+                index={index}
+                name={name}
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+                ref={ref}
+                append={phoneAppend}
+                remove={phoneRemove}
+              />
+            )}
+          />
+        ))}
+        {emailFields.map((field, index) => (
+          <Controller
+            key={field.id}
+            control={control}
+            name={`contact_email.${index}.value`}
+            render={({ field: { name, value, onChange, onBlur, ref } }) => (
+              <InputArray
+                label={`Email ${index + 1}`}
+                index={index}
+                name={name}
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+                ref={ref}
+                append={emailAppend}
+                remove={emailRemove}
+              />
+            )}
+          />
+        ))}
+      </Form>
+    </>
   );
 };
 

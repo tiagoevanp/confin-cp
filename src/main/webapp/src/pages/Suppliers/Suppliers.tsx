@@ -3,48 +3,27 @@ import PageContent from '../../components/page/PageContent';
 import Table from '../../components/table/Table';
 import { useDataFetch } from '../../hooks/useDataFetch';
 import PageActionBar from '../../components/page/PageActionbar';
-import Actionbar from '../../components/actionbar/Actionbar';
 import { tableColumns } from './tableColumns';
-import AddSupplier from './AddSupplier';
 import Page from '../../components/page/Page';
 import ActionbarContext from '../../contexts/ActionbarContext';
-import { useToggle } from '../../hooks/useToggle';
-
-export type SupplierInputs = {
-  id: string;
-  name: string;
-  marketplace: string;
-  address_street: string;
-  address_number: string;
-  address_zip_code: string;
-  contact_phone_number: Array<{ value: string }>;
-  contact_email: Array<{ value: string }>;
-};
+import Actionbar from '../../components/actionbar/Actionbar';
 
 const Suppliers: FC = () => {
-  const [row, setRow] = useState<SupplierInputs>({
-    id: '',
-    name: '',
-    marketplace: '',
-    address_street: '',
-    address_number: '',
-    address_zip_code: '',
-    contact_phone_number: [],
-    contact_email: [],
-  });
   const { data, loading } = useDataFetch('supplier');
 
-  const [hidden, toggle] = useToggle(true);
+  const [hidden, setHidden] = useState(true);
 
   const actionbarContextValue = useMemo(
     () => ({
       hidden,
-      toggle,
-      setRow: (v: SupplierInputs) => {
-        setRow(v);
+      hide: () => {
+        setHidden(true);
+      },
+      show: () => {
+        setHidden(false);
       },
     }),
-    [hidden, toggle],
+    [hidden, setHidden],
   );
 
   return (
@@ -55,10 +34,7 @@ const Suppliers: FC = () => {
           <Table data={data} columns={tableColumns} loading={loading} />
         </PageContent>
         <PageActionBar>
-          <Actionbar
-            title={row?.id === null ? 'Inserir Fornecedor' : 'Atualizar Fornecedor'}
-            content={<AddSupplier row={row} />}
-          />
+          <Actionbar />
         </PageActionBar>
       </Page>
     </ActionbarContext.Provider>
