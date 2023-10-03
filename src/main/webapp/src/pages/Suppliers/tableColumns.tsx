@@ -16,40 +16,41 @@ export const tableColumns = [
     cell: (info) => info.getValue(),
     sortDescFirst: false,
   }),
-  columnHelper.accessor('address.street', {
+  columnHelper.accessor('address_street', {
     header: () => 'Logradouro',
     cell: (info) => {
       return info.getValue();
     },
     sortDescFirst: false,
   }),
-  columnHelper.accessor('address.number', {
+  columnHelper.accessor('address_number', {
     header: () => 'Número',
     cell: (info) => {
       return info.getValue();
     },
     sortDescFirst: false,
   }),
-  columnHelper.accessor('address.zip_code', {
+  columnHelper.accessor('address_zip_code', {
     header: () => 'CEP',
     cell: (info) => {
       return info.getValue();
     },
     sortDescFirst: false,
   }),
-  columnHelper.accessor('contact.email', {
+  columnHelper.accessor('contact_email', {
     header: 'E-mail',
     cell: (info) => info.getValue()?.join(', '),
     sortDescFirst: false,
   }),
 
-  columnHelper.accessor('contact.phone_number', {
+  columnHelper.accessor('contact_phone_number', {
     header: 'Número de Telefone',
     cell: (info) => info.getValue()?.join(', '),
     sortDescFirst: false,
   }),
   columnHelper.accessor((row) => 'actions', {
     id: 'actions',
+    minSize: 100,
     header: () => 'Actions',
     cell: ({ row }) => (
       <>

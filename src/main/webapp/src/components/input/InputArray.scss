@@ -1,0 +1,13 @@
+.cp-input-array {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    gap: 10px;
+
+    &__input {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        margin-block-end: 20px;
+    }
+}

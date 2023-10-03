@@ -1,7 +1,6 @@
 package br.com.cofincp.entities;
 
-import br.com.cofincp.entities.helpers.Address;
-import br.com.cofincp.entities.helpers.Contact;
+import java.util.List;
 import io.quarkus.mongodb.panache.PanacheMongoEntity;
 import io.quarkus.mongodb.panache.common.MongoEntity;
 
@@ -9,6 +8,9 @@ import io.quarkus.mongodb.panache.common.MongoEntity;
 public class SupplierEntity extends PanacheMongoEntity {
     public String name;
     public String marketplace;
-    public Address address;
-    public Contact contact;
+    public String address_street;
+    public String address_number;
+    public String address_zip_code;
+    public List<String> contact_phone_number;
+    public List<String> contact_email;
 }

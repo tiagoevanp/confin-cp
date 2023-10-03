@@ -1,57 +1,61 @@
 import { type FC } from 'react';
 import Form from '../../components/form/Form';
 import Input from '../../components/input/Input';
-import { useForm, type SubmitHandler, useFieldArray } from 'react-hook-form';
+import { useForm, type SubmitHandler, useFieldArray, Controller } from 'react-hook-form';
 import { useAxios } from '../../hooks/useAxios';
-import Button from '../../components/button/Button';
-import InputGroup from '../../components/input/InputGroup';
-
-export type SupplierInputs = {
-  id: string;
-  name: string;
-  marketplace: string;
-  address: {
-    street: string;
-    number: number;
-    zip_code: string;
-  };
-  contact: Array<{
-    phone_number: string;
-    email: string;
-  }>;
-};
+import InputArray from '../../components/input/InputArray';
+import { type SupplierInputs } from './Suppliers';
 
 type AddSupplierProps = {
   row?: SupplierInputs;
 };
 
-const AddSupplier: FC<AddSupplierProps> = ({ row }) => {
-  const { register, handleSubmit, reset, control } = useForm({ values: { ...row } });
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: 'contact',
+const AddSupplier: FC<AddSupplierProps> = ({ row: { ...row } }) => {
+  const { register, handleSubmit, reset, control } = useForm({
+    values: { ...row },
+    defaultValues: {
+      contact_phone_number: [{ value: '' }],
+      contact_email: [{ value: '' }],
+    },
   });
+  const {
+    fields: phoneFields,
+    append: phoneAppend,
+    remove: phoneRemove,
+  } = useFieldArray({
+    control,
+    name: 'contact_phone_number',
+  });
+
+  const {
+    fields: emailFields,
+    append: emailAppend,
+    remove: emailRemove,
+  } = useFieldArray({
+    control,
+    name: 'contact_email',
+  });
+
   const { request: addRequest, loading: addLoading } = useAxios('POST', 'supplier');
   const { request: updateRequest, loading: updateLoading } = useAxios('PUT', `supplier/${row?.id}`);
 
-  const onSubmit: SubmitHandler<SupplierInputs> = async ({ id, contact, ...data }) => {
-    const mappedContact =
-      contact.length > 0
-        ? {
-            phone_number: contact.map((item) => item.phone_number),
-            email: contact.map((item) => item.email),
-          }
-        : undefined;
-
+  const onSubmit: SubmitHandler<SupplierInputs> = async ({
+    id,
+    contact_email,
+    contact_phone_number,
+    ...data
+  }) => {
     if (id === '') {
       await addRequest({
-        contact: mappedContact,
+        contact_email: contact_email.map((email) => email.value),
+        contact_phone_number: contact_phone_number.map((phone) => phone.value),
         ...data,
       });
     } else {
       await updateRequest({
         id,
-        contact: mappedContact,
+        contact_email: contact_email.map((email) => email.value),
+        contact_phone_number: contact_phone_number.map((phone) => phone.value),
         ...data,
       });
     }
@@ -75,57 +79,49 @@ const AddSupplier: FC<AddSupplierProps> = ({ row }) => {
         type='text'
       />
       <Input {...register('marketplace', { required: true })} label='Marketplace' type='text' />
-      <Input {...register('address.street')} label='Rua' type='text' />
-      <Input {...register('address.number')} label='Número' type='number' />
-      <Input {...register('address.zip_code')} label='CEP' type='text' />
-      <InputGroup
-        label='Contatos'
-        button={
-          <Button
-            square
-            name='close'
-            onClick={() => {
-              append({ phone_number: '', email: '' });
-            }}
-          />
-        }
-      >
-        <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-          {fields.map((field, index) => (
-            <div
-              key={field.id}
-              style={{ display: 'flex', flexGrow: 1, alignItems: 'center', gap: '10px' }}
-            >
-              <div
-                style={{
-                  marginBlockEnd: '20px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  flexGrow: 1,
-                }}
-              >
-                <Input
-                  {...register(`contact.${index}.phone_number`)}
-                  label={`Telefone ${index + 1}`}
-                  type='text'
-                />
-                <Input
-                  {...register(`contact.${index}.email`)}
-                  label={`E-mail ${index + 1}`}
-                  type='text'
-                />
-              </div>
-              <Button
-                square
-                name='delete'
-                onClick={() => {
-                  remove(index);
-                }}
-              />
-            </div>
-          ))}
-        </div>
-      </InputGroup>
+      <Input {...register('address_street')} label='Rua' type='text' />
+      <Input {...register('address_number')} label='Número' type='number' />
+      <Input {...register('address_zip_code')} label='CEP' type='text' />
+      {phoneFields.map((field, index) => (
+        <Controller
+          key={field.id}
+          control={control}
+          name={`contact_phone_number.${index}.value`}
+          render={({ field: { name, value, onChange, onBlur, ref } }) => (
+            <InputArray
+              label={`Telefone ${index + 1}`}
+              index={index}
+              name={name}
+              onChange={onChange}
+              onBlur={onBlur}
+              value={value}
+              ref={ref}
+              append={phoneAppend}
+              remove={phoneRemove}
+            />
+          )}
+        />
+      ))}
+      {emailFields.map((field, index) => (
+        <Controller
+          key={field.id}
+          control={control}
+          name={`contact_email.${index}.value`}
+          render={({ field: { name, value, onChange, onBlur, ref } }) => (
+            <InputArray
+              label={`Email ${index + 1}`}
+              index={index}
+              name={name}
+              onChange={onChange}
+              onBlur={onBlur}
+              value={value}
+              ref={ref}
+              append={emailAppend}
+              remove={emailRemove}
+            />
+          )}
+        />
+      ))}
     </Form>
   );
 };

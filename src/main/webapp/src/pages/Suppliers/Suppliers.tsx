@@ -5,18 +5,32 @@ import { useDataFetch } from '../../hooks/useDataFetch';
 import PageActionBar from '../../components/page/PageActionbar';
 import Actionbar from '../../components/actionbar/Actionbar';
 import { tableColumns } from './tableColumns';
-import AddSupplier, { type SupplierInputs } from './AddSupplier';
+import AddSupplier from './AddSupplier';
 import Page from '../../components/page/Page';
 import ActionbarContext from '../../contexts/ActionbarContext';
 import { useToggle } from '../../hooks/useToggle';
+
+export type SupplierInputs = {
+  id: string;
+  name: string;
+  marketplace: string;
+  address_street: string;
+  address_number: string;
+  address_zip_code: string;
+  contact_phone_number: Array<{ value: string }>;
+  contact_email: Array<{ value: string }>;
+};
 
 const Suppliers: FC = () => {
   const [row, setRow] = useState<SupplierInputs>({
     id: '',
     name: '',
     marketplace: '',
-    address: { street: '', number: 0, zip_code: '' },
-    contact: [],
+    address_street: '',
+    address_number: '',
+    address_zip_code: '',
+    contact_phone_number: [],
+    contact_email: [],
   });
   const { data, loading } = useDataFetch('supplier');
 
