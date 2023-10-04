@@ -5,9 +5,10 @@ type LabelProps = {
   text?: string;
   disabled?: boolean;
   hidden?: boolean;
+  required?: boolean;
 };
 
-const Label: FC<LabelProps> = ({ disabled, text, hidden }) => {
+const Label: FC<LabelProps> = ({ disabled, text, hidden, required }) => {
   const className = useClassName('cp-hint', {
     disabled,
   });
@@ -18,7 +19,10 @@ const Label: FC<LabelProps> = ({ disabled, text, hidden }) => {
 
   return (
     <label hidden={hidden} className={className}>
-      <div className='cp-label--text'>{text}</div>
+      <div className='cp-label--text'>
+        {text}
+        {(required ?? false) && <span className='cp-label--text__required'> *</span>}
+      </div>
     </label>
   );
 };

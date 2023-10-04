@@ -1,13 +1,21 @@
+@import '../../styles/colors.scss';
+
 .cp-input-array {
     display: flex;
     flex-grow: 1;
-    align-items: center;
+    align-items: flex-end;
     gap: 10px;
 
     &__input {
         display: flex;
         flex-direction: column;
         flex-grow: 1;
-        margin-block-end: 20px;
     }
+
+    &__plural {
+        margin-inline-start: 5px;
+        padding-inline-start: 10px;
+        border-inline-start: 2px solid $cp-blue-dark;
+    }
+
 }

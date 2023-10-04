@@ -8,6 +8,7 @@ import { useLoaderData, useNavigate } from 'react-router-dom';
 import { type Supplier } from '../../definitions/api/Supplier';
 import { usePathResolver } from '../../hooks/usePathResolver';
 import ActionbarContext from '../../contexts/ActionbarContext';
+import Callout from '../../components/callout/Callout';
 
 type SupplierInputs = {
   id: string;
@@ -25,6 +26,7 @@ const AddSupplier: FC = () => {
   const data = useLoaderData() as { payload: Supplier };
   const [contactPhone, setContactPhone] = useState([{ value: '' }]);
   const [contactEmail, setContactEmail] = useState([{ value: '' }]);
+  const [errorMessage, setErrorMessage] = useState('');
   const { reloadData } = useContext(ActionbarContext);
   const navigate = useNavigate();
 
@@ -78,22 +80,31 @@ const AddSupplier: FC = () => {
     contact_phone_number,
     ...data
   }) => {
+    setErrorMessage('');
+
+    let response;
+
     if (id === undefined) {
-      await addRequest({
+      response = await addRequest({
         contact_email: contact_email.map((email) => email.value),
         contact_phone_number: contact_phone_number.map((phone) => phone.value),
         ...data,
       });
     } else {
-      await updateRequest({
+      response = await updateRequest({
         id,
         contact_email: contact_email.map((email) => email.value),
         contact_phone_number: contact_phone_number.map((phone) => phone.value),
         ...data,
       });
     }
-    navigate(`/${page}`);
-    reloadData();
+
+    if (response.success === true) {
+      navigate(`/${page}`);
+      reloadData();
+    } else {
+      setErrorMessage(response.message);
+    }
   };
 
   return (
@@ -109,17 +120,26 @@ const AddSupplier: FC = () => {
         }}
         loading={addLoading || updateLoading}
       >
-        <Input {...register('id')} type='text' hidden disabled label='ID' />
+        {errorMessage !== '' && <Callout message={errorMessage} type='danger' />}
+        <Input {...register('id')} type='text' hidden disabled label='ID' required />
         <Input
           {...register('name', {
             required: true,
           })}
           label='Nome'
           type='text'
+          required
         />
-        <Input {...register('marketplace', { required: true })} label='Marketplace' type='text' />
+        <Input
+          {...register('marketplace', {
+            required: true,
+          })}
+          label='Marketplace'
+          type='text'
+          required
+        />
         <Input {...register('address_street')} label='Rua' type='text' />
-        <Input {...register('address_number')} label='Número' type='number' />
+        <Input {...register('address_number')} label='Número' type='text' />
         <Input {...register('address_zip_code')} label='CEP' type='text' />
         {phoneFields.map((field, index) => (
           <Controller

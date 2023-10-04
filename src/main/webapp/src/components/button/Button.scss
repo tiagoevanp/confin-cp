@@ -94,6 +94,29 @@
         cursor: not-allowed;
     }
 
+    &-square-loader {
+        display: inline-block;
+        width: 28px;
+        height: 28px;
+        
+        &__dot {
+            margin: 9px;
+            width: 10px;
+            height: 10px;
+            border-radius: 100%;
+            background-color: $cp-black;
+            animation: jump 1s ease infinite;
+
+            &--danger {
+                background-color: $cp-danger;
+            }
+    
+            &--success {
+                background-color: $cp-success;
+            }
+        }
+    }
+
     &-loader {
         display: inline-block;
         width: 10px;

@@ -10,16 +10,21 @@ type ButtonLoaderProps = {
 
 const ButtonLoader: FC<ButtonLoaderProps> = ({ ghost, variant, isSquare }) => {
   const className = useClassName('cp-button-loader', { ghost, variant });
+  const squareClassName = useClassName('cp-button-square-loader__dot', { ghost, variant });
 
   if (isSquare) {
-    return <div className={className} />;
+    return (
+      <div className='cp-button-square-loader'>
+        <div className={squareClassName}></div>
+      </div>
+    );
   }
 
   return (
     <>
-      <div className={className} />
-      <div className={className} />
-      <div className={className} />
+      <div className={`${className} cp-button-loader__dot`} />
+      <div className={`${className} cp-button-loader__dot`} />
+      <div className={`${className} cp-button-loader__dot`} />
     </>
   );
 };

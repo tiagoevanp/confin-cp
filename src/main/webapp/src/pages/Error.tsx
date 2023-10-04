@@ -11,7 +11,7 @@ const Error: FC = () => {
         height: '100vh',
       }}
     >
-      <h1>Erro!</h1>
+      <h1>Ops!</h1>
       <p>Alguma coisa não saiu como o esperado...</p>
     </div>
   );

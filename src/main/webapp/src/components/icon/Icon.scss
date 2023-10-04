@@ -2,8 +2,6 @@
 @import '../../styles/icons';
 
 .cp-icon {
-    @include icons;
-
     display: block;
     width: 28px;
     height: 28px;
@@ -13,6 +11,10 @@
     background-position: center;
     background-size: 25px;
     background-repeat: no-repeat;
+
+    &-name {
+        @include icons;
+    }
 
     &--success {
         background-color: $cp-success;

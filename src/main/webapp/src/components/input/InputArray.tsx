@@ -17,7 +17,7 @@ type InputArrayProps = {
 const InputArray = forwardRef<HTMLInputElement, InputArrayProps>(
   ({ label, index, append, remove, ...props }, ref) => {
     return (
-      <div className='cp-input-array'>
+      <div className={`cp-input-array ${index > 0 ? 'cp-input-array__plural' : ''}`}>
         <div className={'cp-input-array__input'}>
           <Input label={label} type='text' ref={ref} {...props} />
         </div>

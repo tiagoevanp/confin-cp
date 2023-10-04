@@ -49,6 +49,10 @@
         padding-bottom: 5px;
         padding-left: 2px;
         color: $cp-black;
+
+        &__required {
+            color: $cp-danger;
+        }
     }
 
     &--disabled {

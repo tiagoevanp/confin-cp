@@ -38,7 +38,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
   ) => {
     return (
       <div className='cp-input__wrapper' style={style}>
-        <Label text={label} disabled={disabled} hidden={hidden} />
+        <Label text={label} disabled={disabled} hidden={hidden} required={required} />
         <Hint text={hint} disabled={disabled} hidden={hidden} />
         <input
           ref={ref}
@@ -47,7 +47,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           disabled={disabled}
           placeholder={placeholder}
           className='cp-input'
-          required={required}
           hidden={hidden}
           onChange={onChange}
           onBlur={onBlur}

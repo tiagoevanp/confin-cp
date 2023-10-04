@@ -22,9 +22,9 @@ export type IconProps = {
 };
 
 const Icon: FC<IconProps> = ({ name, variant }) => {
-  const className = useClassName('cp-icon', { name, variant });
+  const className = useClassName('cp-icon', { variant });
 
-  return <i {...{ className }} />;
+  return <i className={`${className} cp-icon-name--${name}`} />;
 };
 
 export default Icon;
