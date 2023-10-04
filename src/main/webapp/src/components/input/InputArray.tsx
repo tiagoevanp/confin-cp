@@ -24,7 +24,7 @@ const InputArray = forwardRef<HTMLInputElement, InputArrayProps>(
         {index === 0 ? (
           <Button
             square
-            name='close'
+            name='add'
             onClick={() => {
               append({ value: '' });
             }}

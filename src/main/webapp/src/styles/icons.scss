@@ -11,6 +11,11 @@
         mask-image: url(../../resources/icons/close.svg);
     }
 
+    &--add {
+        transform: rotate(45deg);
+        mask-image: url(../../resources/icons/close.svg);
+    }
+
     &--home {
         mask-image: url(../../resources/icons/home.svg);
     }

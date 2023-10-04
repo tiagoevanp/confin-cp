@@ -8,6 +8,7 @@ export type IconProps = {
     | 'edit'
     | 'delete'
     | 'close'
+    | 'add'
     | 'home'
     | 'logout'
     | 'clipboard'
