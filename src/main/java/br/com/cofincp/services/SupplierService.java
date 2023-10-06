@@ -1,4 +1,4 @@
-package br.com.cofincp.validators;
+package br.com.cofincp.services;
 
 import br.com.cofincp.entities.SupplierEntity;
 import jakarta.enterprise.context.ApplicationScoped;

@@ -37,11 +37,11 @@ public class FixedCost implements ICrud<FixedCostEntity> {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Override
-     public Response read(@PathParam("id") String id) {
+    public Response read(@PathParam("id") String id) {
         try {
             FixedCostEntity fixedCost = FixedCostEntity.findById(new ObjectId(id));
 
-            if(fixedCost == null) {
+            if (fixedCost == null) {
                 throw new NotFoundException();
             }
 
@@ -85,7 +85,7 @@ public class FixedCost implements ICrud<FixedCostEntity> {
         try {
             FixedCostEntity fixedCost = FixedCostEntity.findById(new ObjectId(id));
 
-            if(fixedCost == null) {
+            if (fixedCost == null) {
                 throw new NotFoundException();
             }
 

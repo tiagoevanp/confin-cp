@@ -37,11 +37,11 @@ public class Discount implements ICrud<DiscountEntity> {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Override
-     public Response read(@PathParam("id") String id) {
+    public Response read(@PathParam("id") String id) {
         try {
             DiscountEntity discount = DiscountEntity.findById(new ObjectId(id));
 
-            if(discount == null) {
+            if (discount == null) {
                 throw new NotFoundException();
             }
 
@@ -85,7 +85,7 @@ public class Discount implements ICrud<DiscountEntity> {
         try {
             DiscountEntity discount = DiscountEntity.findById(new ObjectId(id));
 
-            if(discount == null) {
+            if (discount == null) {
                 throw new NotFoundException();
             }
 

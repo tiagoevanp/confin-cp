@@ -36,11 +36,11 @@ public class Supply implements ICrud<SupplyEntity> {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Override
-     public Response read(@PathParam("id") String id) {
+    public Response read(@PathParam("id") String id) {
         try {
             SupplyEntity supply = SupplyEntity.findById(new ObjectId(id));
 
-            if(supply == null) {
+            if (supply == null) {
                 throw new NotFoundException();
             }
 
@@ -84,7 +84,7 @@ public class Supply implements ICrud<SupplyEntity> {
         try {
             SupplyEntity supply = SupplyEntity.findById(new ObjectId(id));
 
-            if(supply == null) {
+            if (supply == null) {
                 throw new NotFoundException();
             }
 

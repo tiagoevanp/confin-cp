@@ -18,7 +18,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
 @Path("api/v1/config/business")
-public class BusinessConf implements ICrud<BusinessConfEntity>{
+public class BusinessConf implements ICrud<BusinessConfEntity> {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -37,11 +37,11 @@ public class BusinessConf implements ICrud<BusinessConfEntity>{
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Override
-     public Response read(@PathParam("id") String id) {
+    public Response read(@PathParam("id") String id) {
         try {
             BusinessConfEntity businessConfig = BusinessConfEntity.findById(new ObjectId(id));
 
-            if(businessConfig == null) {
+            if (businessConfig == null) {
                 throw new NotFoundException();
             }
 
@@ -85,7 +85,7 @@ public class BusinessConf implements ICrud<BusinessConfEntity>{
         try {
             BusinessConfEntity businessConfig = BusinessConfEntity.findById(new ObjectId(id));
 
-            if(businessConfig == null) {
+            if (businessConfig == null) {
                 throw new NotFoundException();
             }
 

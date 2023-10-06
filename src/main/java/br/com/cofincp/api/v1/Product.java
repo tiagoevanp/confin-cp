@@ -18,7 +18,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
 @Path("api/v1/product")
-public class Product implements ICrud<ProductEntity>{
+public class Product implements ICrud<ProductEntity> {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -37,11 +37,11 @@ public class Product implements ICrud<ProductEntity>{
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Override
-     public Response read(@PathParam("id") String id) {
+    public Response read(@PathParam("id") String id) {
         try {
             ProductEntity product = ProductEntity.findById(new ObjectId(id));
 
-            if(product == null) {
+            if (product == null) {
                 throw new NotFoundException();
             }
 
@@ -85,7 +85,7 @@ public class Product implements ICrud<ProductEntity>{
         try {
             ProductEntity product = ProductEntity.findById(new ObjectId(id));
 
-            if(product == null) {
+            if (product == null) {
                 throw new NotFoundException();
             }
 

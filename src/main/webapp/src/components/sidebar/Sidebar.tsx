@@ -9,7 +9,6 @@ const Sidebar: FC = () => {
       <div className='sidebar__sections'>
         <Section title='Painel Principal' icon='home'>
           <Item title='Dashboard' to='dashboard' />
-          <Item title='Logs' to='logs' />
         </Section>
         <Section title='Administração' icon='clipboard'>
           <Item title='Fornecedores' to='suppliers' />

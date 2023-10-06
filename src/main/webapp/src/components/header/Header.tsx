@@ -8,6 +8,7 @@ const Header: FC = () => {
     <header className='header'>
       <div className='header__links'>
         <Link to='/'>Início</Link>
+        <Link to='/logs'>Logs</Link>
       </div>
       <Avatar name='coelho papeleiro' />
     </header>

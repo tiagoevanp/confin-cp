@@ -59,7 +59,9 @@ const Button: FC<ButtonProps | SquareButtonProps> = (props) => {
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
-        onClick?.(e);
+        if (!(loading ?? false)) {
+          onClick?.(e);
+        }
       }}
     >
       {innerContent}
