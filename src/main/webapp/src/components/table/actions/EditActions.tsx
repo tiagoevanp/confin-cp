@@ -1,5 +1,5 @@
 import { type FC } from 'react';
-import Button from '../../components/button/Button';
+import Button from '../../button/Button';
 import { useNavigate } from 'react-router-dom';
 
 type EditActionProps = {

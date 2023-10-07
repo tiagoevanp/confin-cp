@@ -12,6 +12,8 @@ const Sidebar: FC = () => {
         </Section>
         <Section title='Administração' icon='clipboard'>
           <Item title='Fornecedores' to='suppliers' />
+          <Item title='Produtos' to='products' />
+          <Item title='Descontos' to='discounts' />
         </Section>
         <Section title='Configurações' icon='settings' />
       </div>

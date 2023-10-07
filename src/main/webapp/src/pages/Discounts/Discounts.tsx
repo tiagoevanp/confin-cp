@@ -8,8 +8,8 @@ import Page from '../../components/page/Page';
 import Actionbar from '../../components/actionbar/Actionbar';
 import ActionbarProvider from '../../providers/ActionbarProvider';
 
-const Suppliers: FC = () => {
-  const { data, loading, refetch } = useDataFetch('supplier');
+const Discounts: FC = () => {
+  const { data, loading, refetch } = useDataFetch('discount');
 
   return (
     <ActionbarProvider refetch={refetch}>
@@ -26,4 +26,4 @@ const Suppliers: FC = () => {
   );
 };
 
-export default Suppliers;
+export default Discounts;

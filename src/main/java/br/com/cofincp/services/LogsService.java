@@ -4,9 +4,17 @@ import br.com.cofincp.api.v1.Logs;
 import br.com.cofincp.entities.LogsEntity;
 import br.com.cofincp.enums.RestMethods;
 import io.vertx.ext.web.RoutingContext;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.core.Context;
 
 public class LogsService {
-    public static void setLog(String id, RestMethods method, RoutingContext context, Logs logsRestClient) {
+    @Context
+    private RoutingContext context;
+
+    @Inject
+    Logs logsRestClient;
+
+    public void setLog(String id, RestMethods method) {
         LogsEntity log = new LogsEntity();
         log.ip = context.request().host();
         log.uri = context.request().absoluteURI();

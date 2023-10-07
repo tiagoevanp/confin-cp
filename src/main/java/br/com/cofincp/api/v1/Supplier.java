@@ -10,7 +10,6 @@ import br.com.cofincp.entities.SupplierEntity;
 import br.com.cofincp.enums.RestMethods;
 import br.com.cofincp.services.LogsService;
 import br.com.cofincp.services.SupplierService;
-import io.vertx.ext.web.RoutingContext;
 import jakarta.inject.Inject;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.Consumes;
@@ -22,17 +21,10 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 
 @Path("api/v1/supplier")
-public class Supplier implements ICrud<SupplierEntity> {
-
-    @Context
-    private RoutingContext context;
-
-    @Inject
-    Logs logsRestClient;
+public class Supplier extends LogsService implements ICrud<SupplierEntity> {
 
     @Inject
     SupplierService supplierService;
@@ -74,11 +66,11 @@ public class Supplier implements ICrud<SupplierEntity> {
     @Override
     public Response create(SupplierEntity supplier) {
         try {
-            supplierService.validateSupplier(supplier);
+            supplierService.validate(supplier);
 
             supplier.persist();
 
-            LogsService.setLog(supplier.id.toString(), RestMethods.POST, context, logsRestClient);
+            setLog(supplier.id.toString(), RestMethods.POST);
 
             return new Response(supplier);
         } catch (ConstraintViolationException e) {
@@ -95,15 +87,15 @@ public class Supplier implements ICrud<SupplierEntity> {
     @Override
     public Response update(@PathParam("id") String id, SupplierEntity supplier) {
         try {
-            supplierService.validateSupplier(supplier);
+            supplierService.validate(supplier);
 
             supplier.update();
 
-            LogsService.setLog(supplier.id.toString(), RestMethods.PUT, context, logsRestClient);
+            setLog(supplier.id.toString(), RestMethods.PUT);
 
             return new Response(supplier);
         } catch (ConstraintViolationException e) {
-            return new Response(e.getConstraintViolations().toString());
+            return new Response(e.getConstraintViolations());
         } catch (Exception e) {
             return new Response(e.getMessage());
         }
@@ -123,7 +115,7 @@ public class Supplier implements ICrud<SupplierEntity> {
 
             supplier.delete();
 
-            LogsService.setLog(supplier.id.toString(), RestMethods.DELETE, context, logsRestClient);
+            setLog(supplier.id.toString(), RestMethods.DELETE);
 
             return new Response(supplier);
         } catch (Exception e) {

@@ -1,7 +1,7 @@
 import { createColumnHelper } from '@tanstack/react-table';
 import { type Supplier } from '../../definitions/api/Supplier';
-import DeleteAction from './DeleteAction';
-import EditAction from './EditActions';
+import DeleteAction from '../../components/table/actions/DeleteAction';
+import EditAction from '../../components/table/actions/EditActions';
 
 const columnHelper = createColumnHelper<Supplier>();
 
@@ -55,7 +55,7 @@ export const tableColumns = [
     cell: ({ row }) => (
       <>
         <EditAction id={row.original.id} />
-        <DeleteAction id={row.original.id} />
+        <DeleteAction id={row.original.id} endpoint='supplier' />
       </>
     ),
   }),

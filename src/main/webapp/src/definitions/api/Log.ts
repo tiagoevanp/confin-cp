@@ -1,4 +1,5 @@
-export type Logs = {
+export type Log = {
+  id: string;
   ip: string;
   uri: string;
   timestamp: number;

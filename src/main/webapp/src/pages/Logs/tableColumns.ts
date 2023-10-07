@@ -1,7 +1,7 @@
 import { createColumnHelper } from '@tanstack/react-table';
-import { type Logs } from '../../definitions/api/Logs';
+import { type Log } from '../../definitions/api/Log';
 
-const columnHelper = createColumnHelper<Logs>();
+const columnHelper = createColumnHelper<Log>();
 
 export const tableColumns = [
   columnHelper.accessor('ip', {

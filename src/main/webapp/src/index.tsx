@@ -9,6 +9,8 @@ import Dashboard from './pages/Dashboard';
 import Suppliers from './pages/Suppliers/Suppliers';
 import axios from 'axios';
 import AddSupplier from './pages/Suppliers/AddSupplier';
+import Discounts from './pages/Discounts/Discounts';
+import AddDiscount from './pages/Discounts/AddDiscount';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
@@ -42,6 +44,26 @@ const router = createBrowserRouter([
             element: <AddSupplier />,
             loader: async ({ params }) =>
               (await axios.get(`${process.env.REACT_APP_API_ENDPOINT}supplier/${params.id}`)).data,
+          },
+        ],
+      },
+      {
+        path: 'products',
+        element: <div>Produtos</div>,
+      },
+      {
+        path: 'discounts',
+        element: <Discounts />,
+        children: [
+          {
+            path: 'add',
+            element: <AddDiscount />,
+          },
+          {
+            path: 'edit/:id',
+            element: <AddDiscount />,
+            loader: async ({ params }) =>
+              (await axios.get(`${process.env.REACT_APP_API_ENDPOINT}discount/${params.id}`)).data,
           },
         ],
       },
