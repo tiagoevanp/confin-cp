@@ -13,6 +13,8 @@ import Discounts from './pages/Discounts/Discounts';
 import AddDiscount from './pages/Discounts/AddDiscount';
 import FixedCosts from './pages/FixedCosts/FixedCosts';
 import AddFixedCost from './pages/FixedCosts/AddFixedCost';
+import Supplies from './pages/Supplies/Supplies';
+import AddSupply from './pages/Supplies/AddSupply';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
@@ -50,6 +52,22 @@ const router = createBrowserRouter([
             element: <AddSupplier />,
             loader: async ({ params }) =>
               (await axios.get(`${process.env.REACT_APP_API_ENDPOINT}supplier/${params.id}`)).data,
+          },
+        ],
+      },
+      {
+        path: 'supplies',
+        element: <Supplies />,
+        children: [
+          {
+            path: 'add',
+            element: <AddSupply />,
+          },
+          {
+            path: 'edit/:id',
+            element: <AddSupply />,
+            loader: async ({ params }) =>
+              (await axios.get(`${process.env.REACT_APP_API_ENDPOINT}supply/${params.id}`)).data,
           },
         ],
       },

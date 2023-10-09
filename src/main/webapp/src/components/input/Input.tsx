@@ -4,7 +4,7 @@ import Label from './Label';
 import Hint from './Hint';
 
 export type InputProps = {
-  type: 'text' | 'number' | 'password' | 'email';
+  type: 'text' | 'number' | 'password' | 'email' | 'date';
   name: string;
   disabled?: boolean;
   placeholder?: string;

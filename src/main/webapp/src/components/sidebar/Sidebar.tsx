@@ -13,6 +13,7 @@ const Sidebar: FC = () => {
         <Section title='Administração' icon='clipboard'>
           <Item title='Produtos' to='products' />
           <Item title='Fornecedores' to='suppliers' />
+          <Item title='Suprimentos' to='supplies' />
           <Item title='Custos Fixos' to='fixed-costs' />
           <Item title='Descontos' to='discounts' />
         </Section>

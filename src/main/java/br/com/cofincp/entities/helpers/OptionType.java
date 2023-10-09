@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class DiscountType {
+public class OptionType {
     public String value;
     public String label;
 }
