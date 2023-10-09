@@ -103,6 +103,7 @@ public class Discount extends LogsService implements ICrud<DiscountEntity> {
 
     @DELETE
     @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
     @Override
     public Response delete(@PathParam("id") String id) {
         try {
