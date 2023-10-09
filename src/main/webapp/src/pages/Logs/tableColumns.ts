@@ -24,7 +24,6 @@ export const tableColumns = [
   columnHelper.accessor('timestamp', {
     header: () => 'Data e Hora',
     cell: (info) => {
-      console.log(info.getValue());
       return new Date(info.getValue()).toLocaleDateString('pt-BR', {
         year: 'numeric',
         month: 'numeric',

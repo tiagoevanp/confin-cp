@@ -13,9 +13,9 @@ export type InputProps = {
   style?: HTMLAttributes<HTMLDivElement>['style'];
   required?: boolean;
   hidden?: boolean;
-  onBlur?: ChangeEventHandler<HTMLInputElement>;
-  onChange?: ChangeEventHandler<HTMLInputElement>;
-  value?: string;
+  onBlur: ChangeEventHandler<HTMLInputElement>;
+  onChange: (...event: any[]) => void;
+  value?: string | number;
 };
 
 const Input = forwardRef<HTMLInputElement, InputProps>(

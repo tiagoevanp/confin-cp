@@ -2,6 +2,7 @@ import { createColumnHelper } from '@tanstack/react-table';
 import DeleteAction from '../../components/table/actions/DeleteAction';
 import EditAction from '../../components/table/actions/EditActions';
 import { type Discount } from '../../definitions/api/Discount';
+import { moneyMask } from '../../hooks/useMoneyMask';
 
 const columnHelper = createColumnHelper<Discount>();
 
@@ -13,7 +14,10 @@ export const tableColumns = [
   }),
   columnHelper.accessor('value', {
     header: () => 'Valor',
-    cell: (info) => info.getValue(),
+    cell: (info) =>
+      info.row.original.type.value === 'PERCENTAGE'
+        ? `${info.getValue()}%`
+        : `R$ ${moneyMask(info.getValue().toString(), ',')}`,
     sortDescFirst: false,
   }),
   columnHelper.accessor('type', {

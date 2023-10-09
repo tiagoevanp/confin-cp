@@ -18,6 +18,7 @@ const TableFilter: FC<TableFilterProps> = ({ onChange, value }) => {
         onChange={(e) => {
           onChange(e.target.value);
         }}
+        onBlur={() => {}}
         value={value}
       />
     </div>
