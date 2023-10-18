@@ -17,7 +17,9 @@ const Sidebar: FC = () => {
           <Item title='Custos Fixos' to='fixed-costs' />
           <Item title='Descontos' to='discounts' />
         </Section>
-        <Section title='Configurações' icon='settings' />
+        <Section title='Configurações' icon='settings'>
+          <Item title='Negócio' to='business-conf' />
+        </Section>
       </div>
       <div className='sidebar__footer'>{/* <Section title='Sair' icon='logout' /> */}</div>
     </aside>

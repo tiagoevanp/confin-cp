@@ -50,6 +50,7 @@ const AddDiscount: FC = () => {
   );
 
   const onSubmit: SubmitHandler<DiscountInputs> = async ({ id, value, ...data }) => {
+    console.log(value);
     setErrorMessage('');
 
     let response;

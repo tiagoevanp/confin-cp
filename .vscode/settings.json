@@ -4,5 +4,6 @@
     "cSpell.words": [
         "confin",
         "CONFIN"
-    ]
+    ],
+    "java.compile.nullAnalysis.mode": "automatic"
 }

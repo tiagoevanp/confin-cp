@@ -1,7 +1,7 @@
 @import '../../styles/colors';
 @import '../../styles/fonts';
 
-.cp-select {
+.cp-select, .cp-select-multiple {
     &__control{
         @include font-medium;
 

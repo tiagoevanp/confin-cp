@@ -7,16 +7,17 @@ import { tableColumns } from './tableColumns';
 import Page from '../../components/page/Page';
 import Actionbar from '../../components/actionbar/Actionbar';
 import ActionbarProvider from '../../providers/ActionbarProvider';
+import { type FixedCost } from '../../definitions/api/FixedCost';
 
 const FixedCosts: FC = () => {
-  const { data, loading, refetch } = useDataFetch('fixed-cost');
+  const { data, loading, refetch } = useDataFetch<FixedCost>('fixed-cost');
 
   return (
     <ActionbarProvider refetch={refetch}>
       <Page>
         <PageContent>
           <h1>Custos Fixos</h1>
-          <Table data={data} columns={tableColumns} loading={loading} />
+          <Table data={data} columns={tableColumns} loading={loading} refetch={refetch} />
         </PageContent>
         <PageActionBar>
           <Actionbar />

@@ -16,7 +16,7 @@ const Supplies: FC = () => {
       <Page>
         <PageContent>
           <h1>Suprimentos</h1>
-          <Table data={data} columns={tableColumns} loading={loading} />
+          <Table data={data} columns={tableColumns} loading={loading} refetch={refetch} />
         </PageContent>
         <PageActionBar>
           <Actionbar />

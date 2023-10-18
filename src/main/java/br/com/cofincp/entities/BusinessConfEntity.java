@@ -2,11 +2,13 @@ package br.com.cofincp.entities;
 
 import java.util.List;
 
-import br.com.cofincp.entities.helpers.Config;
-import br.com.cofincp.enums.BusinessConf;
+import br.com.cofincp.entities.helpers.OptionType;
 import io.quarkus.mongodb.panache.PanacheMongoEntity;
+import io.quarkus.mongodb.panache.common.MongoEntity;
 
+@MongoEntity(collection = "conf-business")
 public class BusinessConfEntity extends PanacheMongoEntity {
-    public BusinessConf name;
-    public List<Config> configs;
+    public String id;
+    public int value;
+    public List<OptionType> values;
 }

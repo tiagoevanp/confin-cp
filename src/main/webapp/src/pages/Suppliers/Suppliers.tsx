@@ -16,7 +16,7 @@ const Suppliers: FC = () => {
       <Page>
         <PageContent>
           <h1>Fornecedores</h1>
-          <Table data={data} columns={tableColumns} loading={loading} />
+          <Table data={data} columns={tableColumns} loading={loading} refetch={refetch} />
         </PageContent>
         <PageActionBar>
           <Actionbar />

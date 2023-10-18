@@ -12,6 +12,7 @@ import InputGroup from '../../components/input/InputGroup';
 import InputMoney from '../../components/input/InputMoney';
 import Select from '../../components/select/Select';
 import { useDataFetch } from '../../hooks/useDataFetch';
+import { type Supplier } from '../../definitions/api/Supplier';
 
 type SupplyInputs = {
   id: string;
@@ -47,7 +48,7 @@ const AddSupply: FC = () => {
     },
   });
 
-  const { data: suppliersData, loading: suppliersLoading } = useDataFetch('supplier');
+  const { data: suppliersData, loading: suppliersLoading } = useDataFetch<Supplier>('supplier');
   const { request: addRequest, loading: addLoading } = useAxios('POST', 'supply');
   const { request: updateRequest, loading: updateLoading } = useAxios(
     'PUT',

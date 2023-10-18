@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>	
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+        http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+
+    <changeSet  id="1"  author="tiago">
+        <ext:createCollection collectionName="conf-business">
+            <ext:options>
+                {
+                    validator: {
+                        $jsonSchema: {
+                            bsonType: "object",
+                            properties: {
+                                value: {
+                                    bsonType: "number",
+                                    description: "The value of the setting"
+                                }
+                                values: {
+                                    bsonType: "array",
+                                    description: "The values of the setting"
+                                    items: {
+                                        "bsonType": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    validationAction: "warn",
+                    validationLevel: "strict"
+                }
+            </ext:options>
+        </ext:createCollection>
+
+        <ext:insertMany collectionName="conf-business">
+            <ext:documents>
+                [
+                    {"_id":"profit_default", "value": 0},
+                    {"_id":"credit_card_fee", "value": 0},
+                    {"_id":"pix_fee", "value": 0},
+                    {"_id":"bank_slip_fee", "value": 0},
+                    {"_id":"pro_labore", "value": 0},
+                    {"_id":"supplies_default", "values": []}
+                ]
+            </ext:documents>
+        </ext:insertMany>
+    </changeSet>
+</databaseChangeLog>

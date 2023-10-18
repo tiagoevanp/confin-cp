@@ -20,6 +20,7 @@ type TableProps = {
   data: any;
   columns: any;
   loading?: boolean;
+  refetch: () => void;
 };
 
 const filterFn: FilterFn<any> = (row, columnId, value, addMeta) => {
@@ -32,7 +33,7 @@ const filterFn: FilterFn<any> = (row, columnId, value, addMeta) => {
   return itemRank.passed;
 };
 
-const Table: FC<TableProps> = ({ data, columns, loading }) => {
+const Table: FC<TableProps> = ({ data, columns, loading, refetch }) => {
   const [globalFilter, setGlobalFilter] = useState<string>('');
   const [sorting, setSorting] = useState<SortingState>([]);
 
@@ -55,7 +56,7 @@ const Table: FC<TableProps> = ({ data, columns, loading }) => {
 
   if (loading ?? false) return <TableSkeleton />;
 
-  if (data === undefined) return <TableError />;
+  if (data === null || data === undefined) return <TableError refetch={refetch} />;
 
   if (data.length === 0) return <TableEmpty />;
 

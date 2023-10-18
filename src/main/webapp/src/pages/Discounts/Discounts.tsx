@@ -7,16 +7,17 @@ import { tableColumns } from './tableColumns';
 import Page from '../../components/page/Page';
 import Actionbar from '../../components/actionbar/Actionbar';
 import ActionbarProvider from '../../providers/ActionbarProvider';
+import { type Discount } from '../../definitions/api/Discount';
 
 const Discounts: FC = () => {
-  const { data, loading, refetch } = useDataFetch('discount');
+  const { data, loading, refetch } = useDataFetch<Discount>('discount');
 
   return (
     <ActionbarProvider refetch={refetch}>
       <Page>
         <PageContent>
           <h1>Fornecedores</h1>
-          <Table data={data} columns={tableColumns} loading={loading} />
+          <Table data={data} columns={tableColumns} loading={loading} refetch={refetch} />
         </PageContent>
         <PageActionBar>
           <Actionbar />

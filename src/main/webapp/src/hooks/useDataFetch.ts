@@ -2,10 +2,10 @@ import { useCallback, useEffect, useState } from 'react';
 import { useAxios } from './useAxios';
 
 // TODO: adjust any type
-type UseDataFetchReturn = { loading: boolean; data: any[]; refetch: () => void };
+type UseDataFetchReturn<T> = { loading: boolean; data: T[]; refetch: () => void };
 
-export const useDataFetch = (url: string): UseDataFetchReturn => {
-  const [data, setData] = useState([] as any[]);
+export const useDataFetch = <T>(url: string): UseDataFetchReturn<T> => {
+  const [data, setData] = useState([] as T[]);
 
   const { loading, request } = useAxios('GET', url);
 

@@ -15,6 +15,7 @@ import FixedCosts from './pages/FixedCosts/FixedCosts';
 import AddFixedCost from './pages/FixedCosts/AddFixedCost';
 import Supplies from './pages/Supplies/Supplies';
 import AddSupply from './pages/Supplies/AddSupply';
+import BusinessConf from './pages/BusinessConf/BusinessConf';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
@@ -103,6 +104,10 @@ const router = createBrowserRouter([
               (await axios.get(`${process.env.REACT_APP_API_ENDPOINT}discount/${params.id}`)).data,
           },
         ],
+      },
+      {
+        path: 'business-conf',
+        element: <BusinessConf />,
       },
     ],
   },
