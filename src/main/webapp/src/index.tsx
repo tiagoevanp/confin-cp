@@ -18,6 +18,7 @@ import AddSupply from './pages/Supplies/AddSupply';
 import BusinessConf from './pages/BusinessConf/BusinessConf';
 import Products from './pages/Products/Products';
 import AddProduct from './pages/Products/AddProduct';
+import Home from './pages/Home';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
@@ -29,6 +30,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
+        element: <Home />,
       },
       {
         path: 'dashboard',

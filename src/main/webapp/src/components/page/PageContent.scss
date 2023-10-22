@@ -14,4 +14,11 @@
         font-size: 36px;
         margin-block: 10px;
     }
+
+    p {
+        @include font-regular;
+        color: $cp-black;
+        font-size: 16px;
+        margin-block: 10px;
+    }
 }
