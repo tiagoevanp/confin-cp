@@ -2,11 +2,12 @@ import { type NumberValue } from './helpers/NumberValue';
 import { type Option } from './helpers/Option';
 import { type Purchase } from './helpers/Purchase';
 
-export type Supply = {
+export type Product = {
   id: string;
   name: string;
   purchase: Purchase;
+  profit_percentage: NumberValue;
   supplier_id: Option;
-  annual_depreciation_value: NumberValue;
-  annual_maintenance_value: NumberValue;
+  supply_id: Option[];
+  discount_id: Option;
 };

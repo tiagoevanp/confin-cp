@@ -1,4 +1,5 @@
-import { type ValueType } from '../helpers/ValueType';
+import { type NumberValue } from '../helpers/NumberValue';
+import { type Option } from '../helpers/Option';
 
 export type Business = {
   id:
@@ -8,6 +9,6 @@ export type Business = {
     | 'bank_slip_fee'
     | 'pro_labore'
     | 'supplies_default';
-  value: { integer: number; decimal: number; type: ValueType };
-  values: Array<{ value: string; label: string }>;
+  value: NumberValue;
+  values: Option[];
 };

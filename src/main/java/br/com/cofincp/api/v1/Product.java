@@ -7,7 +7,12 @@ import org.bson.types.ObjectId;
 import br.com.cofincp.api.v1.helpers.ICrud;
 import br.com.cofincp.api.v1.helpers.Response;
 import br.com.cofincp.entities.ProductEntity;
+import br.com.cofincp.enums.RestMethods;
+import br.com.cofincp.services.LogsService;
+import br.com.cofincp.services.ProductService;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.POST;
@@ -18,7 +23,10 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
 @Path("api/v1/product")
-public class Product implements ICrud<ProductEntity> {
+public class Product extends LogsService implements ICrud<ProductEntity> {
+
+    @Inject
+    ProductService productService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -52,12 +60,16 @@ public class Product implements ICrud<ProductEntity> {
     }
 
     @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Override
     public Response create(ProductEntity product) {
         try {
+            productService.validate(product);
+
             product.persist();
+
+            setLog(product.id.toString(), RestMethods.POST);
 
             return new Response(product);
         } catch (Exception e) {
@@ -67,12 +79,16 @@ public class Product implements ICrud<ProductEntity> {
 
     @PUT
     @Path("/{id}")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Override
     public Response update(@PathParam("id") String id, ProductEntity product) {
         try {
+            productService.validate(product);
+
             product.update();
+
+            setLog(product.id.toString(), RestMethods.PUT);
 
             return new Response(product);
         } catch (Exception e) {
@@ -80,6 +96,9 @@ public class Product implements ICrud<ProductEntity> {
         }
     }
 
+    @DELETE
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
     @Override
     public Response delete(@PathParam("id") String id) {
         try {
@@ -90,6 +109,8 @@ public class Product implements ICrud<ProductEntity> {
             }
 
             product.delete();
+
+            setLog(product.id.toString(), RestMethods.DELETE);
 
             return new Response(product);
         } catch (Exception e) {

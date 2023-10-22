@@ -10,49 +10,17 @@ import InputMoney from '../../components/input/InputMoney';
 import SelectMultiple from '../../components/select/SelectMultiple';
 import { type Supply } from '../../definitions/api/Supply';
 import { useAxios } from '../../hooks/useAxios';
-import { valueMask } from '../../hooks/useValueMask';
 import Callout from '../../components/callout/Callout';
+import { type Option } from '../../definitions/api/helpers/Option';
+import { getConfigValue, getConfigValueType, getConfigValues } from '../helpers/config';
 
-type BusinessConfInput = {
+export type BusinessConfInput = {
   profit_default: string | number;
   credit_card_fee: string | number;
   pix_fee: string | number;
   bank_slip_fee: string | number;
   pro_labore: string | number;
-  supplies_default: Array<{ value: string; label: string }>;
-};
-
-const getConfigValueType = (configs: Business[], id: Business['id']): string => {
-  const configValue = configs?.find((config) => config.id === id)?.value;
-
-  if (configValue == null) {
-    return '';
-  }
-
-  return configValue.type;
-};
-
-const getConfigValue = (configs: Business[], id: Business['id']): string => {
-  const configValue = configs?.find((config) => config.id === id)?.value;
-
-  if (configValue == null) {
-    return '';
-  }
-
-  return valueMask(configValue);
-};
-
-const getConfigValues = (
-  configs: Business[],
-  id: Business['id'],
-): BusinessConfInput['supplies_default'] => {
-  const configValue = configs?.find((config) => config.id === id);
-
-  if (configValue == null) {
-    return [];
-  }
-
-  return configValue.values;
+  supplies_default: Option[];
 };
 
 const BusinessConf: FC = () => {
@@ -145,7 +113,7 @@ const BusinessConf: FC = () => {
                     key={idx}
                     {...register('profit_default')}
                     type='number'
-                    label='Lucro Padrão'
+                    label='Lucro Percentual Padrão'
                   />
                 );
               case 'credit_card_fee':

@@ -1,7 +1,7 @@
-import { type ValueType } from './helpers/ValueType';
+import { type NumberValue } from './helpers/NumberValue';
 
 export type FixedCost = {
   id: string;
   name: string;
-  value: { integer: number; decimal: number; type: ValueType };
+  value: NumberValue;
 };

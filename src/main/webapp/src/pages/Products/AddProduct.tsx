@@ -1,43 +1,43 @@
-import { type FC, useState, useContext } from 'react';
+import { useState, type FC, useContext } from 'react';
 import Form from '../../components/form/Form';
-import Input from '../../components/input/Input';
-import { useForm, type SubmitHandler, Controller } from 'react-hook-form';
+import { type SubmitHandler, useForm, Controller } from 'react-hook-form';
 import { useAxios } from '../../hooks/useAxios';
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import { type Product } from '../../definitions/api/Product';
 import { usePathResolver } from '../../hooks/usePathResolver';
-import ActionbarContext from '../../contexts/ActionbarContext';
-import Callout from '../../components/callout/Callout';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import { type Supply } from '../../definitions/api/Supply';
+import ActionbarContext from '../../contexts/ActionbarContext';
+import Input from '../../components/input/Input';
+import SelectMultiple from '../../components/select/SelectMultiple';
+import { useDataFetch } from '../../hooks/useDataFetch';
 import InputGroup from '../../components/input/InputGroup';
 import InputMoney from '../../components/input/InputMoney';
-import Select from '../../components/select/Select';
-import { useDataFetch } from '../../hooks/useDataFetch';
+import Callout from '../../components/callout/Callout';
 import { type Supplier } from '../../definitions/api/Supplier';
+import Select from '../../components/select/Select';
 import { type Purchase } from '../../definitions/api/helpers/Purchase';
 import { useValueMask } from '../../hooks/useValueMask';
+import { useConfigs } from '../../hooks/useConfigs';
 
-type SupplyInputs = Omit<
-  Supply,
-  'purchase' | 'annual_depreciation_value' | 'annual_maintenance_value'
-> & {
+type ProductInputs = Omit<Product, 'purchase' | 'profit_percentage'> & {
   purchase: Omit<Purchase, 'value' | 'discount_value' | 'discount_percentage'> & {
     value: string | number;
     discount_value: string | number;
     discount_percentage: string | number;
   };
-  annual_depreciation_value: string | number;
-  annual_maintenance_value: string | number;
+  profit_percentage: string | number;
 };
 
-const AddSupply: FC = () => {
+const AddProduct: FC = () => {
   const { page, action } = usePathResolver();
-  const data = useLoaderData() as { payload: Supply };
+  const data = useLoaderData() as { payload: Product };
   const [errorMessage, setErrorMessage] = useState('');
   const { reloadData } = useContext(ActionbarContext);
   const navigate = useNavigate();
   const valueMask = useValueMask();
+  const configs = useConfigs(['profit_default', 'supplies_default']);
 
-  const { register, handleSubmit, reset, control } = useForm<SupplyInputs>({
+  const { register, handleSubmit, reset, control } = useForm<ProductInputs>({
     defaultValues: {
       purchase: {
         discount_value: '',
@@ -48,8 +48,17 @@ const AddSupply: FC = () => {
       id: data?.payload?.id,
       name: data?.payload?.name,
       supplier_id: data?.payload?.supplier_id,
-      annual_depreciation_value: valueMask(data?.payload?.annual_depreciation_value),
-      annual_maintenance_value: valueMask(data?.payload.annual_maintenance_value),
+      supply_id:
+        data?.payload?.supply_id.length > 0
+          ? data?.payload?.supply_id
+          : page === 'add'
+          ? configs?.supplies_default?.values
+          : [],
+      discount_id: data?.payload?.discount_id,
+      profit_percentage:
+        valueMask(data?.payload?.profit_percentage) !== ''
+          ? valueMask(data?.payload?.profit_percentage)
+          : valueMask(configs?.profit_default?.value),
       purchase: {
         value: valueMask(data?.payload?.purchase?.value),
         discount_percentage: valueMask(data?.payload?.purchase?.discount_percentage),
@@ -60,18 +69,19 @@ const AddSupply: FC = () => {
     },
   });
 
+  const { data: suppliesData, loading: suppliesLoading } = useDataFetch<Supply>('supply');
   const { data: suppliersData, loading: suppliersLoading } = useDataFetch<Supplier>('supplier');
-  const { request: addRequest, loading: addLoading } = useAxios('POST', 'supply');
+  const { data: discountsData, loading: discountsLoading } = useDataFetch<Supplier>('discount');
+  const { request: addRequest, loading: addLoading } = useAxios('POST', 'product');
   const { request: updateRequest, loading: updateLoading } = useAxios(
     'PUT',
-    `supply/${data?.payload.id}`,
+    `product/${data?.payload.id}`,
   );
 
-  const onSubmit: SubmitHandler<SupplyInputs> = async ({
+  const onSubmit: SubmitHandler<ProductInputs> = async ({
     id,
     purchase,
-    annual_depreciation_value,
-    annual_maintenance_value,
+    profit_percentage,
     ...data
   }) => {
     setErrorMessage('');
@@ -81,17 +91,10 @@ const AddSupply: FC = () => {
     if (id === undefined) {
       response = await addRequest({
         ...data,
-        ...(annual_depreciation_value != null && {
-          annual_depreciation_value: {
-            integer: Number(annual_depreciation_value.toString().split('.')[0]),
-            decimal: Number(annual_depreciation_value.toString().split('.')[1]),
-            type: 'PERCENTAGE',
-          },
-        }),
-        ...(annual_maintenance_value != null && {
-          annual_maintenance_value: {
-            integer: Number(annual_maintenance_value.toString().split('.')[0]),
-            decimal: Number(annual_maintenance_value.toString().split('.')[1]),
+        ...(profit_percentage != null && {
+          profit_percentage: {
+            integer: Number(profit_percentage.toString().split('.')[0]),
+            decimal: Number(profit_percentage.toString().split('.')[1]),
             type: 'PERCENTAGE',
           },
         }),
@@ -122,17 +125,10 @@ const AddSupply: FC = () => {
       response = await updateRequest({
         id,
         ...data,
-        ...(annual_depreciation_value != null && {
-          annual_depreciation_value: {
-            integer: Number(annual_depreciation_value.toString().split('.')[0]),
-            decimal: Number(annual_depreciation_value.toString().split('.')[1]),
-            type: 'PERCENTAGE',
-          },
-        }),
-        ...(annual_maintenance_value != null && {
-          annual_maintenance_value: {
-            integer: Number(annual_maintenance_value.toString().split('.')[0]),
-            decimal: Number(annual_maintenance_value.toString().split('.')[1]),
+        ...(profit_percentage != null && {
+          profit_percentage: {
+            integer: Number(profit_percentage.toString().split('.')[0]),
+            decimal: Number(profit_percentage.toString().split('.')[1]),
             type: 'PERCENTAGE',
           },
         }),
@@ -172,7 +168,7 @@ const AddSupply: FC = () => {
   return (
     <>
       <div className='actionbar__content__header'>
-        {action === 'add' ? 'Adicionar Suprimento' : 'Editar Suprimento'}
+        {action === 'add' ? 'Adicionar Produto' : 'Editar Produto'}
       </div>
       <Form
         handleSubmit={handleSubmit}
@@ -213,6 +209,26 @@ const AddSupply: FC = () => {
             />
           )}
         />
+        <Controller
+          control={control}
+          name='supply_id'
+          render={({ field: { name, value, onChange, onBlur, ref } }) => (
+            <SelectMultiple
+              name={name}
+              value={value}
+              onChange={onChange}
+              onBlur={onBlur}
+              ref={ref}
+              label='Suprimentos'
+              disabled={suppliesLoading}
+              options={suppliesData.map((supply) => ({
+                value: supply.id,
+                label: supply.name,
+              }))}
+            />
+          )}
+        />
+        <Input {...register('profit_percentage')} label='Lucro Percentual' type='number' required />
         <InputGroup label='Compra'>
           <Input
             {...register('purchase.date', {
@@ -247,19 +263,28 @@ const AddSupply: FC = () => {
             render={({ field }) => <InputMoney {...field} label='Desconto em Valor' />}
           ></Controller>
         </InputGroup>
-        <Input
-          {...register('annual_depreciation_value')}
-          label='Valor Percentual de Depreciação Anual'
-          type='number'
-        />
-        <Input
-          {...register('annual_maintenance_value')}
-          label='Valor Percentual de Manutenção Anual'
-          type='number'
+        <Controller
+          control={control}
+          name='discount_id'
+          render={({ field: { name, value, onChange, onBlur, ref } }) => (
+            <Select
+              name={name}
+              value={value}
+              onChange={onChange}
+              onBlur={onBlur}
+              ref={ref}
+              label='Desconto de Venda'
+              disabled={discountsLoading}
+              options={discountsData.map((discount) => ({
+                value: discount.id,
+                label: discount.name,
+              }))}
+            />
+          )}
         />
       </Form>
     </>
   );
 };
 
-export default AddSupply;
+export default AddProduct;
