@@ -51,7 +51,7 @@ const AddProduct: FC = () => {
       supply_id:
         data?.payload?.supply_id.length > 0
           ? data?.payload?.supply_id
-          : page === 'add'
+          : action === 'add'
           ? configs?.supplies_default?.values
           : [],
       discount_id: data?.payload?.discount_id,

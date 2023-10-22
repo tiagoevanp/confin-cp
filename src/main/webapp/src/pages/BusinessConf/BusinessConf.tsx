@@ -95,8 +95,6 @@ const BusinessConf: FC = () => {
   return (
     <Page>
       <PageContent>
-        {callout.message !== '' && <Callout {...callout} />}
-        <h1>Configurações de Negócio</h1>
         <Form
           disabled={loading || loadingSupplies || updateLoading}
           handleSubmit={handleSubmit}
@@ -105,6 +103,8 @@ const BusinessConf: FC = () => {
             reset();
           }}
         >
+          {callout.message !== '' && <Callout {...callout} />}
+          <h1>Configurações de Negócio</h1>
           {configs.map((config, idx) => {
             switch (config.id) {
               case 'profit_default':
