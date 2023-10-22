@@ -1,5 +1,7 @@
 package br.com.cofincp.services;
 
+import org.jboss.logging.Logger;
+
 import br.com.cofincp.api.v1.Logs;
 import br.com.cofincp.entities.LogsEntity;
 import br.com.cofincp.enums.RestMethods;
@@ -13,6 +15,8 @@ public class LogsService {
 
     @Inject
     Logs logsRestClient;
+
+    public final Logger LOG = Logger.getLogger(LogsService.class);
 
     public void setLog(String id, RestMethods method) {
         LogsEntity log = new LogsEntity();

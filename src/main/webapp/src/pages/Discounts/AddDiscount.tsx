@@ -10,14 +10,9 @@ import Callout from '../../components/callout/Callout';
 import { type Discount } from '../../definitions/api/Discount';
 import Select from '../../components/select/Select';
 import InputMoney from '../../components/input/InputMoney';
-import { useMoneyMask } from '../../hooks/useMoneyMask';
+import { useValueMask } from '../../hooks/useValueMask';
 
-type DiscountInputs = {
-  id: string;
-  name: string;
-  type: 'PERCENTAGE' | 'MONEY_INTEGER';
-  value: number;
-};
+type DiscountInputs = Omit<Discount, 'value'> & { value: string | number };
 
 const AddDiscount: FC = () => {
   const { page, action } = usePathResolver();
@@ -26,20 +21,17 @@ const AddDiscount: FC = () => {
   const [discountType, setDiscountType] = useState(data?.payload?.type.value);
   const { reloadData } = useContext(ActionbarContext);
   const navigate = useNavigate();
-  const moneyMask = useMoneyMask();
+  const valueMask = useValueMask();
 
-  const { register, handleSubmit, reset, control, watch, resetField } = useForm({
+  const { register, handleSubmit, reset, control, watch, resetField } = useForm<DiscountInputs>({
     defaultValues: {
-      value: '',
+      value: 0,
     },
     values: {
-      ...data?.payload,
-      ...(data?.payload?.value != null && {
-        value:
-          data?.payload?.type.value === 'PERCENTAGE'
-            ? data.payload.value.toString()
-            : moneyMask(data.payload.value.toString()),
-      }),
+      id: data?.payload.id,
+      name: data?.payload.name,
+      type: data?.payload.type,
+      value: valueMask(data?.payload?.value),
     },
   });
 
@@ -50,20 +42,27 @@ const AddDiscount: FC = () => {
   );
 
   const onSubmit: SubmitHandler<DiscountInputs> = async ({ id, value, ...data }) => {
-    console.log(value);
     setErrorMessage('');
 
     let response;
 
     if (id === undefined) {
       response = await addRequest({
-        value: Number(value.toString().replace('.', '')),
+        value: {
+          integer: Number(value.toString().split('.')[0]),
+          decimal: Number(value.toString().split('.')[1]),
+          type: discountType === 'PERCENTAGE' ? 'PERCENTAGE' : 'MONEY',
+        },
         ...data,
       });
     } else {
       response = await updateRequest({
         id,
-        value: Number(value.toString().replace('.', '')),
+        value: {
+          integer: Number(value.toString().split('.')[0]),
+          decimal: Number(value.toString().split('.')[1]),
+          type: discountType === 'PERCENTAGE' ? 'PERCENTAGE' : 'MONEY',
+        },
         ...data,
       });
     }
@@ -134,7 +133,7 @@ const AddDiscount: FC = () => {
           render={({ field: { name, value, onChange, onBlur, ref } }) =>
             discountType === 'PERCENTAGE' ? (
               <Input
-                disabled={watch('type')?.value === undefined}
+                disabled={watch('type') === undefined}
                 type='number'
                 name={name}
                 value={value}
@@ -146,7 +145,7 @@ const AddDiscount: FC = () => {
               />
             ) : (
               <InputMoney
-                disabled={watch('type')?.value === undefined}
+                disabled={watch('type') === undefined}
                 name={name}
                 value={value}
                 onChange={onChange}

@@ -15,12 +15,9 @@ public class Purchase {
     @ICheckDateFormat(pattern = "yyyy-MM-dd", message = "Data inválida")
     public Date date;
     @NotNull
-    @Positive(message = "Valor não pode ser negativo, zero ou nulo")
-    public int value;
-    @Positive(message = "Valor de desconto não pode ser negativo ou zero")
-    public int discount_value;
-    @Positive(message = "Porcentagem de desconto não pode ser negativo ou zero")
-    public int discount_percentage;
+    public NumberValue value;
+    public NumberValue discount_value;
+    public NumberValue discount_percentage;
     @Positive(message = "Quantidade não pode ser negativo ou zero")
     public int quantity;
 }

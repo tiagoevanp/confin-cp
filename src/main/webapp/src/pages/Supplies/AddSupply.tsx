@@ -13,20 +13,20 @@ import InputMoney from '../../components/input/InputMoney';
 import Select from '../../components/select/Select';
 import { useDataFetch } from '../../hooks/useDataFetch';
 import { type Supplier } from '../../definitions/api/Supplier';
+import { type Purchase } from '../../definitions/api/helpers/Purchase';
+import { useValueMask } from '../../hooks/useValueMask';
 
-type SupplyInputs = {
-  id: string;
-  name: string;
-  purchase: {
-    date: Date;
-    value: number;
-    discount_value: number;
-    discount_percentage: number;
-    quantity: number;
+type SupplyInputs = Omit<
+  Supply,
+  'purchase' | 'annual_depreciation_value' | 'annual_maintenance_value'
+> & {
+  purchase: Omit<Purchase, 'value' | 'discount_value' | 'discount_percentage'> & {
+    value: string | number;
+    discount_value: string | number;
+    discount_percentage: string | number;
   };
-  supplier_id: { value: string; label: string };
-  annual_depreciation_value: number;
-  annual_maintenance_value: number;
+  annual_depreciation_value: string | number;
+  annual_maintenance_value: string | number;
 };
 
 const AddSupply: FC = () => {
@@ -35,16 +35,28 @@ const AddSupply: FC = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const { reloadData } = useContext(ActionbarContext);
   const navigate = useNavigate();
+  const valueMask = useValueMask();
 
-  const { register, handleSubmit, reset, control } = useForm({
+  const { register, handleSubmit, reset, control } = useForm<SupplyInputs>({
     defaultValues: {
       purchase: {
         discount_value: '',
+        value: '',
       },
     },
     values: {
-      ...data?.payload,
-      purchase: { ...data?.payload?.purchase, date: data?.payload?.purchase.date.split('T')[0] },
+      id: data?.payload?.id,
+      name: data?.payload?.name,
+      supplier_id: data?.payload?.supplier_id,
+      annual_depreciation_value: valueMask(data?.payload?.annual_depreciation_value),
+      annual_maintenance_value: valueMask(data?.payload.annual_maintenance_value),
+      purchase: {
+        value: valueMask(data?.payload?.purchase?.value),
+        discount_percentage: valueMask(data?.payload?.purchase?.discount_percentage),
+        discount_value: valueMask(data?.payload?.purchase?.discount_value),
+        quantity: data?.payload?.purchase?.quantity,
+        date: data?.payload?.purchase?.date?.split('T')[0],
+      },
     },
   });
 
@@ -55,7 +67,13 @@ const AddSupply: FC = () => {
     `supply/${data?.payload.id}`,
   );
 
-  const onSubmit: SubmitHandler<SupplyInputs> = async ({ id, purchase, ...data }) => {
+  const onSubmit: SubmitHandler<SupplyInputs> = async ({
+    id,
+    purchase,
+    annual_depreciation_value,
+    annual_maintenance_value,
+    ...data
+  }) => {
     setErrorMessage('');
 
     let response;
@@ -63,11 +81,40 @@ const AddSupply: FC = () => {
     if (id === undefined) {
       response = await addRequest({
         ...data,
+        ...(annual_depreciation_value != null && {
+          annual_depreciation_value: {
+            integer: Number(annual_depreciation_value.toString().split('.')[0]),
+            decimal: Number(annual_depreciation_value.toString().split('.')[1]),
+            type: 'PERCENTAGE',
+          },
+        }),
+        ...(annual_maintenance_value != null && {
+          annual_maintenance_value: {
+            integer: Number(annual_maintenance_value.toString().split('.')[0]),
+            decimal: Number(annual_maintenance_value.toString().split('.')[1]),
+            type: 'PERCENTAGE',
+          },
+        }),
         purchase: {
           ...purchase,
-          value: Number(purchase.value.toString().replace('.', '')),
+          value: {
+            integer: Number(purchase.value.toString().split('.')[0]),
+            decimal: Number(purchase.value.toString().split('.')[1]),
+            type: 'MONEY',
+          },
           ...(purchase.discount_value != null && {
-            discount_value: Number(purchase.discount_value.toString().replace('.', '')),
+            discount_value: {
+              integer: Number(purchase.discount_value.toString().split('.')[0]),
+              decimal: Number(purchase.discount_value.toString().split('.')[1]),
+              type: 'MONEY',
+            },
+          }),
+          ...(purchase.discount_percentage != null && {
+            discount_percentage: {
+              integer: Number(purchase.discount_percentage.toString().split('.')[0]),
+              decimal: Number(purchase.discount_percentage.toString().split('.')[1]),
+              type: 'PERCENTAGE',
+            },
           }),
         },
       });

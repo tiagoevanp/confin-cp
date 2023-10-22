@@ -1,5 +1,6 @@
 package br.com.cofincp.entities;
 
+import br.com.cofincp.entities.helpers.NumberValue;
 import br.com.cofincp.entities.helpers.OptionType;
 import br.com.cofincp.entities.helpers.Purchase;
 import io.quarkus.mongodb.panache.PanacheMongoEntity;
@@ -14,6 +15,6 @@ public class SupplyEntity extends PanacheMongoEntity {
     public Purchase purchase;
     @NotNull
     public OptionType supplier_id;
-    public int annual_depreciation_value;
-    public int annual_maintenance_value;
+    public NumberValue annual_depreciation_value;
+    public NumberValue annual_maintenance_value;
 }

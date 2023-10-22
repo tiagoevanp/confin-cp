@@ -8,13 +8,11 @@ import { usePathResolver } from '../../hooks/usePathResolver';
 import ActionbarContext from '../../contexts/ActionbarContext';
 import Callout from '../../components/callout/Callout';
 import InputMoney from '../../components/input/InputMoney';
-import { useMoneyMask } from '../../hooks/useMoneyMask';
 import { type FixedCost } from '../../definitions/api/FixedCost';
+import { useValueMask } from '../../hooks/useValueMask';
 
-type FixedCostInputs = {
-  id: string;
-  name: string;
-  value: number;
+type FixedCostInputs = Omit<FixedCost, 'value'> & {
+  value: string | number;
 };
 
 const AddFixedCost: FC = () => {
@@ -23,18 +21,17 @@ const AddFixedCost: FC = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const { reloadData } = useContext(ActionbarContext);
   const navigate = useNavigate();
-  const moneyMask = useMoneyMask();
+  const valueMask = useValueMask();
 
-  const { register, handleSubmit, reset, control } = useForm({
+  const { register, handleSubmit, reset, control } = useForm<FixedCostInputs>({
     defaultValues: {
       name: '',
       value: '',
     },
     values: {
-      ...data?.payload,
-      ...(data?.payload?.value != null && {
-        value: moneyMask(data.payload.value.toString()),
-      }),
+      id: data?.payload?.id,
+      name: data?.payload?.name,
+      value: valueMask(data?.payload?.value),
     },
   });
 
@@ -51,13 +48,21 @@ const AddFixedCost: FC = () => {
 
     if (id === undefined) {
       response = await addRequest({
-        value: Number(value.toString().replace('.', '')),
+        value: {
+          integer: Number(value.toString().split('.')[0]),
+          decimal: Number(value.toString().split('.')[1]),
+          type: 'MONEY',
+        },
         ...data,
       });
     } else {
       response = await updateRequest({
         id,
-        value: Number(value.toString().replace('.', '')),
+        value: {
+          integer: Number(value.toString().split('.')[0]),
+          decimal: Number(value.toString().split('.')[1]),
+          type: 'MONEY',
+        },
         ...data,
       });
     }

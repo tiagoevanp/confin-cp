@@ -18,8 +18,18 @@
                             bsonType: "object",
                             properties: {
                                 value: {
-                                    bsonType: "number",
+                                    bsonType: "object",
                                     description: "The value of the setting"
+                                    properties: {
+                                        integer: {
+                                            bsonType: "number",
+                                            description: "The integer part of the setting"
+                                        },
+                                        decimal: {
+                                            bsonType: "number",
+                                            description: "The decimal part of the setting"
+                                        }
+                                    }
                                 }
                                 values: {
                                     bsonType: "array",
@@ -40,11 +50,11 @@
         <ext:insertMany collectionName="conf-business">
             <ext:documents>
                 [
-                    {"_id":"profit_default", "value": 0},
-                    {"_id":"credit_card_fee", "value": 0},
-                    {"_id":"pix_fee", "value": 0},
-                    {"_id":"bank_slip_fee", "value": 0},
-                    {"_id":"pro_labore", "value": 0},
+                    {"_id":"profit_default", "value": {"integer": 0, "decimal": 0, "type": "PERCENTAGE"}},
+                    {"_id":"credit_card_fee", "value": {"integer": 0, "decimal": 0, "type": "PERCENTAGE"}},
+                    {"_id":"pix_fee", "value": {"integer": 0, "decimal": 0, "type": "PERCENTAGE"}},
+                    {"_id":"bank_slip_fee", "value": {"integer": 0, "decimal": 0, "type": "MONEY"}},
+                    {"_id":"pro_labore", "value": {"integer": 0, "decimal": 0, "type": "MONEY"}},
                     {"_id":"supplies_default", "values": []}
                 ]
             </ext:documents>

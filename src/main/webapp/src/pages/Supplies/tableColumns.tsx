@@ -2,8 +2,8 @@ import { createColumnHelper } from '@tanstack/react-table';
 import DeleteAction from '../../components/table/actions/DeleteAction';
 import EditAction from '../../components/table/actions/EditActions';
 import { type Supply } from '../../definitions/api/Supply';
-import { moneyMask } from '../../hooks/useMoneyMask';
 import { dateMask } from '../../hooks/useDateMask';
+import { valueMask } from '../../hooks/useValueMask';
 
 const columnHelper = createColumnHelper<Supply>();
 
@@ -25,7 +25,7 @@ export const tableColumns = [
   }),
   columnHelper.accessor('purchase.value', {
     header: () => 'Valor de Compra',
-    cell: (info) => `R$ ${moneyMask(info.getValue().toString(), ',')}`,
+    cell: (info) => `R$ ${valueMask(info.getValue()).replace('.', ',')}`,
     sortDescFirst: false,
   }),
   columnHelper.accessor('purchase.quantity', {
@@ -35,12 +35,12 @@ export const tableColumns = [
   }),
   columnHelper.accessor('purchase.discount_percentage', {
     header: () => 'Porcentagem de Desconto',
-    cell: (info) => `${info.getValue()}%`,
+    cell: (info) => `${valueMask(info.getValue()).replace('.', ',')}%`,
     sortDescFirst: false,
   }),
   columnHelper.accessor('purchase.discount_value', {
     header: () => 'Valor de Desconto',
-    cell: (info) => `R$ ${moneyMask(info.getValue().toString(), ',')}`,
+    cell: (info) => `R$ ${valueMask(info.getValue()).replace('.', ',')}`,
     sortDescFirst: false,
   }),
   columnHelper.accessor((row) => 'actions', {

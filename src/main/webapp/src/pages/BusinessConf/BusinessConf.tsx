@@ -1,4 +1,4 @@
-import { useCallback, type FC } from 'react';
+import { useCallback, type FC, useState } from 'react';
 import Page from '../../components/page/Page';
 import PageContent from '../../components/page/PageContent';
 import Form from '../../components/form/Form';
@@ -10,19 +10,61 @@ import InputMoney from '../../components/input/InputMoney';
 import SelectMultiple from '../../components/select/SelectMultiple';
 import { type Supply } from '../../definitions/api/Supply';
 import { useAxios } from '../../hooks/useAxios';
+import { valueMask } from '../../hooks/useValueMask';
+import Callout from '../../components/callout/Callout';
 
 type BusinessConfInput = {
-  profit_default: string;
-  credit_card_fee: string;
-  pix_fee: string;
-  bank_slip_fee: string;
-  pro_labore: string;
+  profit_default: string | number;
+  credit_card_fee: string | number;
+  pix_fee: string | number;
+  bank_slip_fee: string | number;
+  pro_labore: string | number;
   supplies_default: Array<{ value: string; label: string }>;
+};
+
+const getConfigValueType = (configs: Business[], id: Business['id']): string => {
+  const configValue = configs?.find((config) => config.id === id)?.value;
+
+  if (configValue == null) {
+    return '';
+  }
+
+  return configValue.type;
+};
+
+const getConfigValue = (configs: Business[], id: Business['id']): string => {
+  const configValue = configs?.find((config) => config.id === id)?.value;
+
+  if (configValue == null) {
+    return '';
+  }
+
+  return valueMask(configValue);
+};
+
+const getConfigValues = (
+  configs: Business[],
+  id: Business['id'],
+): BusinessConfInput['supplies_default'] => {
+  const configValue = configs?.find((config) => config.id === id);
+
+  if (configValue == null) {
+    return [];
+  }
+
+  return configValue.values;
 };
 
 const BusinessConf: FC = () => {
   const { data: configs, loading } = useDataFetch<Business>('config/business');
   const { data: supplies, loading: loadingSupplies } = useDataFetch<Supply>('supply');
+  const [callout, setCallout] = useState<{
+    type: 'success' | 'danger';
+    message: string;
+  }>({
+    type: 'success',
+    message: '',
+  });
 
   const { register, handleSubmit, reset, control } = useForm<BusinessConfInput>({
     defaultValues: {
@@ -34,42 +76,66 @@ const BusinessConf: FC = () => {
       supplies_default: [],
     },
     values: {
-      profit_default:
-        configs.find((config) => config.id === 'profit_default')?.value.toString() ?? '',
-      credit_card_fee:
-        configs.find((config) => config.id === 'credit_card_fee')?.value.toString() ?? '',
-      pix_fee: configs.find((config) => config.id === 'pix_fee')?.value.toString() ?? '',
-      bank_slip_fee:
-        configs.find((config) => config.id === 'bank_slip_fee')?.value.toString() ?? '',
-      pro_labore: configs.find((config) => config.id === 'pro_labore')?.value.toString() ?? '',
-      supplies_default: configs.find((config) => config.id === 'supplies_default')?.values ?? [],
+      profit_default: getConfigValue(configs, 'profit_default'),
+      credit_card_fee: getConfigValue(configs, 'credit_card_fee'),
+      pix_fee: getConfigValue(configs, 'pix_fee'),
+      bank_slip_fee: getConfigValue(configs, 'bank_slip_fee'),
+      pro_labore: getConfigValue(configs, 'pro_labore'),
+      supplies_default: getConfigValues(configs, 'supplies_default'),
     },
   });
 
   const { request, loading: updateLoading } = useAxios('PUT', 'config/business');
 
   const onSubmit = useCallback(
-    (data: BusinessConfInput) => {
-      request(
+    async (data: BusinessConfInput) => {
+      setCallout({ type: 'success', message: '' });
+
+      const response = await request(
         (Object.keys(data) as Array<keyof typeof data>).map((key) => ({
           id: key,
-          value: !Array.isArray(data[key]) ? Number(data[key].toString().replace('.', '')) : 0,
+          value: !Array.isArray(data[key])
+            ? {
+                integer: Number(data[key].toString().split('.')[0]),
+                decimal: Number(data[key].toString().split('.')[1]),
+                type: getConfigValueType(configs, key),
+              }
+            : undefined,
           values: Array.isArray(data[key]) ? data[key] : [],
         })),
       );
+
+      if (response.success === true) {
+        setCallout({ type: 'success', message: 'Configurações salvas com sucesso!' });
+      } else {
+        setCallout({ type: 'danger', message: response.message });
+      }
     },
-    [request],
+    [configs, request],
   );
+
+  if (loading) {
+    // TODO: loading component
+    return null;
+  }
+
+  if (configs?.length === 0) {
+    // TODO: error component
+    return null;
+  }
 
   return (
     <Page>
       <PageContent>
+        {callout.message !== '' && <Callout {...callout} />}
         <h1>Configurações de Negócio</h1>
         <Form
           disabled={loading || loadingSupplies || updateLoading}
           handleSubmit={handleSubmit}
           onSubmit={onSubmit}
-          reset={reset}
+          reset={() => {
+            reset();
+          }}
         >
           {configs.map((config, idx) => {
             switch (config.id) {
