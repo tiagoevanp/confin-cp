@@ -1,0 +1,39 @@
+@import '../../styles/colors.scss';
+@import '../../styles/fonts.scss';
+
+.card {
+    border-style: solid;
+    border-width: 2px;
+    border-color: $cp-blue-dark;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px 1px $cp-black-light;
+
+    &__title {
+        @include font-semibold;
+        font-size: 16px;
+        padding: 20px;
+
+        color: $cp-white;
+        background-color: $cp-blue-dark;
+    }
+
+    &__content {
+        padding: 20px;
+    }
+
+    &--full {
+        width: 100%;
+    }
+
+    &--half {
+        width: 48%;
+    }
+
+    &--third {
+        width: 31%;
+    }
+
+    &--quarter {
+        width: 23%;
+    }
+}

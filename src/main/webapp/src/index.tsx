@@ -5,7 +5,7 @@ import App from './App';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Error from './pages/Error';
 import Logs from './pages/Logs/Logs';
-import Dashboard from './pages/Dashboard';
+import Dashboard from './pages/Dashboard/Dashboard';
 import Suppliers from './pages/Suppliers/Suppliers';
 import axios from 'axios';
 import AddSupplier from './pages/Suppliers/AddSupplier';
