@@ -16,7 +16,7 @@ const Discounts: FC = () => {
     <ActionbarProvider refetch={refetch}>
       <Page>
         <PageContent>
-          <h1>Fornecedores</h1>
+          <h1>Descontos</h1>
           <Table data={data} columns={tableColumns} loading={loading} refetch={refetch} />
         </PageContent>
         <PageActionBar>

@@ -65,7 +65,7 @@ export const tableColumns = (externalData: {
       cell: ({ row }) => (
         <>
           <EditAction id={row.original.id} />
-          <DeleteAction id={row.original.id} endpoint='supply' />
+          <DeleteAction id={row.original.id} endpoint='product' />
         </>
       ),
     }),

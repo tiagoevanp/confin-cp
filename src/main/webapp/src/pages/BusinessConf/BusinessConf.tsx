@@ -59,6 +59,8 @@ const BusinessConf: FC = () => {
     async (data: BusinessConfInput) => {
       setCallout({ type: 'success', message: '' });
 
+      if (data == null) return;
+
       const response = await request(
         (Object.keys(data) as Array<keyof typeof data>).map((key) => ({
           id: key,
@@ -87,7 +89,7 @@ const BusinessConf: FC = () => {
     return null;
   }
 
-  if (configs?.length === 0) {
+  if (configs == null || configs.length === 0) {
     // TODO: error component
     return null;
   }
@@ -105,7 +107,7 @@ const BusinessConf: FC = () => {
         >
           {callout.message !== '' && <Callout {...callout} />}
           <h1>Configurações de Negócio</h1>
-          {configs.map((config, idx) => {
+          {configs?.map((config, idx) => {
             switch (config.id) {
               case 'profit_default':
                 return (
