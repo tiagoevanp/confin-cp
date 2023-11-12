@@ -21,7 +21,9 @@ export const valueMask: useValueMaskReturn = (value) => {
     return `${value.integer}`;
   }
 
-  return `${value.integer}.${valueDecimal}`;
+  return new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2 }).format(
+    parseFloat(`${value.integer}${value.decimal}`) / 100,
+  );
 };
 
 export const useValueMask = (): useValueMaskReturn => useCallback(valueMask, []);

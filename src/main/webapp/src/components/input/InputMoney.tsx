@@ -13,7 +13,7 @@ const InputMoney = forwardRef<HTMLInputElement, InputMoneyProps>(
         onChange={(e) => {
           onChange(moneyMask(e.target.value));
         }}
-        type='number'
+        type='text'
         value={value}
         name={name}
         onBlur={onBlur}

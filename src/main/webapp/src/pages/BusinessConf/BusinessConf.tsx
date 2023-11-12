@@ -66,8 +66,8 @@ const BusinessConf: FC = () => {
           id: key,
           value: !Array.isArray(data[key])
             ? {
-                integer: Number(data[key].toString().split('.')[0]),
-                decimal: Number(data[key].toString().split('.')[1]),
+                integer: Number(data[key].toString().split(',')[0].replace('.', '')),
+                decimal: Number(data[key].toString().split(',')[1]),
                 type: getConfigValueType(configs, key),
               }
             : undefined,

@@ -49,8 +49,8 @@ const AddDiscount: FC = () => {
     if (id === undefined) {
       response = await addRequest({
         value: {
-          integer: Number(value.toString().split('.')[0]),
-          decimal: Number(value.toString().split('.')[1]),
+          integer: Number(value.toString().split(',')[0].replace('.', '')),
+          decimal: Number(value.toString().split(',')[1]),
           type: discountType === 'PERCENTAGE' ? 'PERCENTAGE' : 'MONEY',
         },
         ...data,
@@ -59,8 +59,8 @@ const AddDiscount: FC = () => {
       response = await updateRequest({
         id,
         value: {
-          integer: Number(value.toString().split('.')[0]),
-          decimal: Number(value.toString().split('.')[1]),
+          integer: Number(value.toString().split(',')[0].replace('.', '')),
+          decimal: Number(value.toString().split(',')[1]),
           type: discountType === 'PERCENTAGE' ? 'PERCENTAGE' : 'MONEY',
         },
         ...data,

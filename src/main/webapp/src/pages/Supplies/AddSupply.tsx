@@ -83,36 +83,38 @@ const AddSupply: FC = () => {
         ...data,
         ...(annual_depreciation_value != null && {
           annual_depreciation_value: {
-            integer: Number(annual_depreciation_value.toString().split('.')[0]),
-            decimal: Number(annual_depreciation_value.toString().split('.')[1]),
+            integer: Number(annual_depreciation_value.toString().split(',')[0].replace('.', '')),
+            decimal: Number(annual_depreciation_value.toString().split(',')[1]),
             type: 'PERCENTAGE',
           },
         }),
         ...(annual_maintenance_value != null && {
           annual_maintenance_value: {
-            integer: Number(annual_maintenance_value.toString().split('.')[0]),
-            decimal: Number(annual_maintenance_value.toString().split('.')[1]),
+            integer: Number(annual_maintenance_value.toString().split(',')[0].replace('.', '')),
+            decimal: Number(annual_maintenance_value.toString().split(',')[1]),
             type: 'PERCENTAGE',
           },
         }),
         purchase: {
           ...purchase,
           value: {
-            integer: Number(purchase.value.toString().split('.')[0]),
-            decimal: Number(purchase.value.toString().split('.')[1]),
+            integer: Number(purchase.value.toString().split(',')[0].replace('.', '')),
+            decimal: Number(purchase.value.toString().split(',')[1]),
             type: 'MONEY',
           },
           ...(purchase.discount_value != null && {
             discount_value: {
-              integer: Number(purchase.discount_value.toString().split('.')[0]),
-              decimal: Number(purchase.discount_value.toString().split('.')[1]),
+              integer: Number(purchase.discount_value.toString().split(',')[0].replace('.', '')),
+              decimal: Number(purchase.discount_value.toString().split(',')[1]),
               type: 'MONEY',
             },
           }),
           ...(purchase.discount_percentage != null && {
             discount_percentage: {
-              integer: Number(purchase.discount_percentage.toString().split('.')[0]),
-              decimal: Number(purchase.discount_percentage.toString().split('.')[1]),
+              integer: Number(
+                purchase.discount_percentage.toString().split(',')[0].replace('.', ''),
+              ),
+              decimal: Number(purchase.discount_percentage.toString().split(',')[1]),
               type: 'PERCENTAGE',
             },
           }),
@@ -124,36 +126,38 @@ const AddSupply: FC = () => {
         ...data,
         ...(annual_depreciation_value != null && {
           annual_depreciation_value: {
-            integer: Number(annual_depreciation_value.toString().split('.')[0]),
-            decimal: Number(annual_depreciation_value.toString().split('.')[1]),
+            integer: Number(annual_depreciation_value.toString().split(',')[0].replace('.', '')),
+            decimal: Number(annual_depreciation_value.toString().split(',')[1]),
             type: 'PERCENTAGE',
           },
         }),
         ...(annual_maintenance_value != null && {
           annual_maintenance_value: {
-            integer: Number(annual_maintenance_value.toString().split('.')[0]),
-            decimal: Number(annual_maintenance_value.toString().split('.')[1]),
+            integer: Number(annual_maintenance_value.toString().split(',')[0].replace('.', '')),
+            decimal: Number(annual_maintenance_value.toString().split(',')[1]),
             type: 'PERCENTAGE',
           },
         }),
         purchase: {
           ...purchase,
           value: {
-            integer: Number(purchase.value.toString().split('.')[0]),
-            decimal: Number(purchase.value.toString().split('.')[1]),
+            integer: Number(purchase.value.toString().split(',')[0].replace('.', '')),
+            decimal: Number(purchase.value.toString().split(',')[1]),
             type: 'MONEY',
           },
           ...(purchase.discount_value != null && {
             discount_value: {
-              integer: Number(purchase.discount_value.toString().split('.')[0]),
-              decimal: Number(purchase.discount_value.toString().split('.')[1]),
+              integer: Number(purchase.discount_value.toString().split(',')[0].replace('.', '')),
+              decimal: Number(purchase.discount_value.toString().split(',')[1]),
               type: 'MONEY',
             },
           }),
           ...(purchase.discount_percentage != null && {
             discount_percentage: {
-              integer: Number(purchase.discount_percentage.toString().split('.')[0]),
-              decimal: Number(purchase.discount_percentage.toString().split('.')[1]),
+              integer: Number(
+                purchase.discount_percentage.toString().split(',')[0].replace('.', ''),
+              ),
+              decimal: Number(purchase.discount_percentage.toString().split(',')[1]),
               type: 'PERCENTAGE',
             },
           }),
