@@ -2,8 +2,6 @@ package br.com.cofincp.api.v1;
 
 import java.util.List;
 
-import org.bson.types.ObjectId;
-
 import br.com.cofincp.api.v1.helpers.ISetting;
 import br.com.cofincp.api.v1.helpers.Response;
 import br.com.cofincp.entities.BusinessConfEntity;
@@ -38,7 +36,7 @@ public class BusinessConf implements ISetting<BusinessConfEntity> {
     @Override
     public Response read(@PathParam("id") String id) {
         try {
-            BusinessConfEntity businessConfig = BusinessConfEntity.findById(new ObjectId(id));
+            BusinessConfEntity businessConfig = BusinessConfEntity.findById(id);
 
             if (businessConfig == null) {
                 throw new NotFoundException();

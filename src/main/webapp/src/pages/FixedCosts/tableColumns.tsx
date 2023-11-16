@@ -14,7 +14,7 @@ export const tableColumns = [
   }),
   columnHelper.accessor('value', {
     header: () => 'Valor',
-    cell: (info) => `R$ ${valueMask(info.getValue()).replace('.', ',')}`,
+    cell: (info) => valueMask(info.getValue()),
     sortDescFirst: false,
   }),
   columnHelper.accessor((row) => 'actions', {

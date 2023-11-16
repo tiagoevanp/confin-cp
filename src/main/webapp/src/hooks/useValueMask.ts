@@ -17,13 +17,19 @@ export const valueMask: useValueMaskReturn = (value) => {
 
   const valueDecimal = value.decimal === 0 && value.type === 'MONEY' ? '00' : value.decimal;
 
-  if (valueDecimal === 0) {
-    return `${value.integer}`;
+  if (valueDecimal === 0 && value.type === 'PERCENTAGE') {
+    return `${value.integer}%`;
   }
 
-  return new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2 }).format(
-    parseFloat(`${value.integer}${value.decimal}`) / 100,
-  );
+  switch (value.type) {
+    case 'MONEY':
+      return new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+      }).format(parseFloat(`${value.integer}.${value.decimal}`));
+    case 'PERCENTAGE':
+      return `${value.integer},${value.decimal}%`;
+  }
 };
 
 export const useValueMask = (): useValueMaskReturn => useCallback(valueMask, []);

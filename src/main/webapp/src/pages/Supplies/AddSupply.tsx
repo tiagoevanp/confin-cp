@@ -14,7 +14,7 @@ import Select from '../../components/select/Select';
 import { useDataFetch } from '../../hooks/useDataFetch';
 import { type Supplier } from '../../definitions/api/Supplier';
 import { type Purchase } from '../../definitions/api/helpers/Purchase';
-import { useValueMask } from '../../hooks/useValueMask';
+import { useInputMask } from '../../hooks/useInputMask';
 
 type SupplyInputs = Omit<
   Supply,
@@ -35,7 +35,7 @@ const AddSupply: FC = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const { reloadData } = useContext(ActionbarContext);
   const navigate = useNavigate();
-  const valueMask = useValueMask();
+  const inputMask = useInputMask();
 
   const { register, handleSubmit, reset, control } = useForm<SupplyInputs>({
     defaultValues: {
@@ -48,12 +48,12 @@ const AddSupply: FC = () => {
       id: data?.payload?.id,
       name: data?.payload?.name,
       supplier_id: data?.payload?.supplier_id,
-      annual_depreciation_value: valueMask(data?.payload?.annual_depreciation_value),
-      annual_maintenance_value: valueMask(data?.payload.annual_maintenance_value),
+      annual_depreciation_value: inputMask(data?.payload?.annual_depreciation_value),
+      annual_maintenance_value: inputMask(data?.payload.annual_maintenance_value),
       purchase: {
-        value: valueMask(data?.payload?.purchase?.value),
-        discount_percentage: valueMask(data?.payload?.purchase?.discount_percentage),
-        discount_value: valueMask(data?.payload?.purchase?.discount_value),
+        value: inputMask(data?.payload?.purchase?.value),
+        discount_percentage: inputMask(data?.payload?.purchase?.discount_percentage),
+        discount_value: inputMask(data?.payload?.purchase?.discount_value),
         quantity: data?.payload?.purchase?.quantity,
         date: data?.payload?.purchase?.date?.split('T')[0],
       },

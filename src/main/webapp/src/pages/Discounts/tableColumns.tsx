@@ -14,10 +14,7 @@ export const tableColumns = [
   }),
   columnHelper.accessor('value', {
     header: () => 'Valor',
-    cell: (info) =>
-      info.row.original.type.value === 'PERCENTAGE'
-        ? `${valueMask(info.getValue()).replace('.', ',')}%`
-        : `R$ ${valueMask(info.getValue()).replace('.', ',')}`,
+    cell: (info) => valueMask(info.getValue()),
     sortDescFirst: false,
   }),
   columnHelper.accessor('type', {

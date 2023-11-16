@@ -9,7 +9,9 @@ import io.quarkus.mongodb.panache.PanacheMongoEntity;
 import io.quarkus.mongodb.panache.common.MongoEntity;
 import io.smallrye.common.constraint.NotNull;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
 
+@Getter
 @MongoEntity(collection = "product")
 public class ProductEntity extends PanacheMongoEntity {
     @NotBlank(message = "Nome é um campo obrigatório")

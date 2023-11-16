@@ -16,8 +16,8 @@ import Callout from '../../components/callout/Callout';
 import { type Supplier } from '../../definitions/api/Supplier';
 import Select from '../../components/select/Select';
 import { type Purchase } from '../../definitions/api/helpers/Purchase';
-import { useValueMask } from '../../hooks/useValueMask';
 import { useConfigs } from '../../hooks/useConfigs';
+import { useInputMask } from '../../hooks/useInputMask';
 
 type ProductInputs = Omit<Product, 'purchase' | 'profit_percentage'> & {
   purchase: Omit<Purchase, 'value' | 'discount_value' | 'discount_percentage'> & {
@@ -34,7 +34,7 @@ const AddProduct: FC = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const { reloadData } = useContext(ActionbarContext);
   const navigate = useNavigate();
-  const valueMask = useValueMask();
+  const inputMask = useInputMask();
   const configs = useConfigs(['profit_default', 'supplies_default']);
 
   const { register, handleSubmit, reset, control } = useForm<ProductInputs>({
@@ -56,13 +56,13 @@ const AddProduct: FC = () => {
           : [],
       discount_id: data?.payload?.discount_id,
       profit_percentage:
-        valueMask(data?.payload?.profit_percentage) !== ''
-          ? valueMask(data?.payload?.profit_percentage)
-          : valueMask(configs?.profit_default?.value),
+        inputMask(data?.payload?.profit_percentage) !== ''
+          ? inputMask(data?.payload?.profit_percentage)
+          : inputMask(configs?.profit_default?.value),
       purchase: {
-        value: valueMask(data?.payload?.purchase?.value),
-        discount_percentage: valueMask(data?.payload?.purchase?.discount_percentage),
-        discount_value: valueMask(data?.payload?.purchase?.discount_value),
+        value: inputMask(data?.payload?.purchase?.value),
+        discount_percentage: inputMask(data?.payload?.purchase?.discount_percentage),
+        discount_value: inputMask(data?.payload?.purchase?.discount_value),
         quantity: data?.payload?.purchase?.quantity,
         date: data?.payload?.purchase?.date?.split('T')[0],
       },

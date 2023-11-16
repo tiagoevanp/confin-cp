@@ -10,7 +10,7 @@ import Callout from '../../components/callout/Callout';
 import { type Discount } from '../../definitions/api/Discount';
 import Select from '../../components/select/Select';
 import InputMoney from '../../components/input/InputMoney';
-import { useValueMask } from '../../hooks/useValueMask';
+import { useInputMask } from '../../hooks/useInputMask';
 
 type DiscountInputs = Omit<Discount, 'value'> & { value: string | number };
 
@@ -21,7 +21,7 @@ const AddDiscount: FC = () => {
   const [discountType, setDiscountType] = useState(data?.payload?.type.value);
   const { reloadData } = useContext(ActionbarContext);
   const navigate = useNavigate();
-  const valueMask = useValueMask();
+  const inputMask = useInputMask();
 
   const { register, handleSubmit, reset, control, watch, resetField } = useForm<DiscountInputs>({
     defaultValues: {
@@ -31,7 +31,7 @@ const AddDiscount: FC = () => {
       id: data?.payload.id,
       name: data?.payload.name,
       type: data?.payload.type,
-      value: valueMask(data?.payload?.value),
+      value: inputMask(data?.payload.value),
     },
   });
 

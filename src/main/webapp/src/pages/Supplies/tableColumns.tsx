@@ -25,7 +25,7 @@ export const tableColumns = [
   }),
   columnHelper.accessor('purchase.value', {
     header: () => 'Valor de Compra',
-    cell: (info) => `R$ ${valueMask(info.getValue()).replace('.', ',')}`,
+    cell: (info) => valueMask(info.getValue()),
     sortDescFirst: false,
   }),
   columnHelper.accessor('purchase.quantity', {
@@ -35,12 +35,12 @@ export const tableColumns = [
   }),
   columnHelper.accessor('purchase.discount_percentage', {
     header: () => 'Porcentagem de Desconto',
-    cell: (info) => `${valueMask(info.getValue()).replace('.', ',')}%`,
+    cell: (info) => valueMask(info.getValue()),
     sortDescFirst: false,
   }),
   columnHelper.accessor('purchase.discount_value', {
     header: () => 'Valor de Desconto',
-    cell: (info) => `R$ ${valueMask(info.getValue()).replace('.', ',')}`,
+    cell: (info) => valueMask(info.getValue()),
     sortDescFirst: false,
   }),
   columnHelper.accessor((row) => 'actions', {

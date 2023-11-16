@@ -1,15 +1,18 @@
 package br.com.cofincp.api.v1;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.types.ObjectId;
 
+import br.com.cofincp.api.v1.helpers.Deal;
 import br.com.cofincp.api.v1.helpers.ICrud;
 import br.com.cofincp.api.v1.helpers.Response;
 import br.com.cofincp.entities.ProductEntity;
 import br.com.cofincp.enums.RestMethods;
 import br.com.cofincp.services.LogsService;
 import br.com.cofincp.services.ProductService;
+import io.quarkus.logging.Log;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -28,6 +31,12 @@ public class Product extends LogsService implements ICrud<ProductEntity> {
     @Inject
     ProductService productService;
 
+    @Inject
+    BusinessConf businessConfRestClient;
+
+    @Inject
+    Supply supplyRestClient;
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Override
@@ -37,6 +46,27 @@ public class Product extends LogsService implements ICrud<ProductEntity> {
 
             return new Response(products);
         } catch (Exception e) {
+            return new Response(e.getMessage());
+        }
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/deal")
+    public Response deal() {
+        try {
+            List<ProductEntity> products = ProductEntity.listAll();
+            List<Deal> deals = new ArrayList<>();
+
+            for (ProductEntity product : products) {
+                Deal deal = new Deal(product, businessConfRestClient, supplyRestClient);
+
+                deals.add(deal);
+            }
+
+            return new Response(deals);
+        } catch (Exception e) {
+            Log.error(e.getMessage());
             return new Response(e.getMessage());
         }
     }

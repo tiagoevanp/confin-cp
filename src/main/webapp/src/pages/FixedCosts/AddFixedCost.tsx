@@ -9,7 +9,7 @@ import ActionbarContext from '../../contexts/ActionbarContext';
 import Callout from '../../components/callout/Callout';
 import InputMoney from '../../components/input/InputMoney';
 import { type FixedCost } from '../../definitions/api/FixedCost';
-import { useValueMask } from '../../hooks/useValueMask';
+import { useInputMask } from '../../hooks/useInputMask';
 
 type FixedCostInputs = Omit<FixedCost, 'value'> & {
   value: string | number;
@@ -21,7 +21,7 @@ const AddFixedCost: FC = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const { reloadData } = useContext(ActionbarContext);
   const navigate = useNavigate();
-  const valueMask = useValueMask();
+  const inputMask = useInputMask();
 
   const { register, handleSubmit, reset, control } = useForm<FixedCostInputs>({
     defaultValues: {
@@ -31,7 +31,7 @@ const AddFixedCost: FC = () => {
     values: {
       id: data?.payload?.id,
       name: data?.payload?.name,
-      value: valueMask(data?.payload?.value),
+      value: inputMask(data?.payload?.value),
     },
   });
 

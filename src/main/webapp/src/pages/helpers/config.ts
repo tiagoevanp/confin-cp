@@ -1,5 +1,5 @@
 import { type Business } from '../../definitions/api/config/Business';
-import { valueMask } from '../../hooks/useValueMask';
+import { inputMask } from '../../hooks/useInputMask';
 import { type BusinessConfInput } from '../BusinessConf/BusinessConf';
 
 export const getConfigValueType = (configs: Business[], id: Business['id']): string => {
@@ -19,7 +19,7 @@ export const getConfigValue = (configs: Business[], id: Business['id']): string 
     return '';
   }
 
-  return valueMask(configValue);
+  return inputMask(configValue);
 };
 
 export const getConfigValues = (
