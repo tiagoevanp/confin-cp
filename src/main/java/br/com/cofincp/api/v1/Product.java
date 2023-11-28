@@ -9,10 +9,12 @@ import br.com.cofincp.api.v1.helpers.Deal;
 import br.com.cofincp.api.v1.helpers.ICrud;
 import br.com.cofincp.api.v1.helpers.Response;
 import br.com.cofincp.entities.ProductEntity;
+import br.com.cofincp.entities.projections.Profit;
 import br.com.cofincp.enums.RestMethods;
 import br.com.cofincp.services.LogsService;
 import br.com.cofincp.services.ProductService;
 import io.quarkus.logging.Log;
+import io.quarkus.panache.common.Sort;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -85,6 +87,21 @@ public class Product extends LogsService implements ICrud<ProductEntity> {
 
             return new Response(product);
         } catch (Exception e) {
+            return new Response(e.getMessage());
+        }
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/profit")
+    public Response profit() {
+        try {
+            List<Profit> products = ProductEntity.findAll(Sort.by("profit_percentage").and("name"))
+                    .project(Profit.class).list();
+
+            return new Response(products);
+        } catch (Exception e) {
+            Log.error(e.getMessage());
             return new Response(e.getMessage());
         }
     }

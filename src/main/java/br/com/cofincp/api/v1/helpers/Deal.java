@@ -17,12 +17,14 @@ public class Deal extends ProductEntity {
 
     private NumberValue cost = new NumberValue();
     private NumberValue price = new NumberValue();
+    private int quantity;
 
     public Deal(ProductEntity product, BusinessConf businessConfRestClient, Supply supplyRestClient) {
         this.id = product.id;
         this.name = product.getName();
         this.supplier_id = product.getSupplier_id();
         this.profit_percentage = product.getProfit_percentage();
+        this.quantity = product.getPurchase().quantity;
 
         DecimalFormat df = new DecimalFormat("#.00", new DecimalFormatSymbols(Locale.US));
 

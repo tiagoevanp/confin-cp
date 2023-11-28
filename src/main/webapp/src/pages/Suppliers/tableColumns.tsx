@@ -7,7 +7,7 @@ const columnHelper = createColumnHelper<Supplier>();
 
 export const tableColumns = [
   columnHelper.accessor('name', {
-    header: () => 'Name',
+    header: () => 'Nome',
     cell: (info) => info.getValue(),
     sortDescFirst: false,
   }),

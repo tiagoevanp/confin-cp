@@ -1,55 +1,121 @@
-import { type FC } from 'react';
+import { useMemo, type FC } from 'react';
 import Page from '../../components/page/Page';
 import PageContent from '../../components/page/PageContent';
 import Card from '../../components/card/Card';
 import './Dashboard.scss';
+import Table from '../../components/table/Table';
+import { type Product, type Profit } from '../../definitions/api/Product';
+import { useDataFetch } from '../../hooks/useDataFetch';
+import { tableColumns } from './tableColumns';
+import { useMoneyMask } from '../../hooks/useMoneyMask';
+import { type Deal } from '../../definitions/api/Deal';
 
-const Dashboard: FC = () => (
-  <Page>
-    <PageContent>
-      <h1>Dashboard</h1>
-      <div className='dashboard'>
-        <Card title='Card 1' size='quarter'>
-          <p>teste card mais longo</p>
-        </Card>
-        <Card title='Card 2' size='quarter'>
-          <p>teste card mais longo</p>
-        </Card>
-        <Card title='Card 3' size='quarter'>
-          <p>teste card mais longo</p>
-        </Card>
-        <Card title='Card 4' size='quarter'>
-          <p>teste card mais longo</p>
-        </Card>
-        <Card title='Card 5' size='full'>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit ex a, rem saepe porro
-            inventore commodi aliquid sit magnam quae magni sint distinctio mollitia alias!
-            Deserunt, reiciendis quos. Possimus, voluptates.
-          </p>
-        </Card>
-        <Card title='Card 6' size='half'>
-          <p>teste</p>
-        </Card>
-        <Card title='Card 7' size='half'>
-          <p>teste</p>
-        </Card>
-        <Card title='Card 8' size='third'>
-          <p>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius tenetur repellat maiores.
-            Repellat, libero est. Atque esse, sed nam deserunt vitae consequatur in veniam? Mollitia
-            enim explicabo minima repellendus iusto.
-          </p>
-        </Card>
-        <Card title='Card 9' size='third'>
-          <p>teste</p>
-        </Card>
-        <Card title='Card 10' size='third'>
-          <p>teste</p>
-        </Card>
-      </div>
-    </PageContent>
-  </Page>
-);
+const Dashboard: FC = () => {
+  const {
+    data: profitData,
+    loading: profitLoading,
+    refetch: profitRefetch,
+  } = useDataFetch<Profit>('product/profit');
+  const { data: productData } = useDataFetch<Product>('product');
+  const { data: dealData } = useDataFetch<Deal>('product/deal');
+  const moneyMask = useMoneyMask();
+
+  const quantityTotal = useMemo(() => {
+    let total = 0;
+
+    productData?.forEach((product) => {
+      total += product.purchase.quantity;
+    });
+
+    return total;
+  }, [productData]);
+
+  const purchaseTotal = useMemo(() => {
+    let total = 0;
+
+    productData?.forEach((product) => {
+      total += Number(`${product.purchase.value.integer}.${product.purchase.value.decimal}`);
+    });
+
+    return total.toString();
+  }, [productData]);
+
+  const salesTotal = useMemo(() => {
+    let total = 0;
+
+    dealData?.forEach((deal) => {
+      total += Number(`${deal.price.integer}.${deal.price.decimal}`) * deal.quantity;
+    });
+
+    return total.toString();
+  }, [dealData]);
+
+  return (
+    <Page>
+      <PageContent>
+        <h1>Dashboard</h1>
+        <div className='dashboard'>
+          <Card title='Quantidade total de itens' size='quarter'>
+            <div
+              style={{
+                display: 'flex',
+                height: '100%',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <h1>{quantityTotal}</h1>
+            </div>
+          </Card>
+          <Card title='Total em compras' size='quarter'>
+            <div
+              style={{
+                display: 'flex',
+                height: '100%',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <h1>{`R$ ${moneyMask(purchaseTotal)}`}</h1>
+            </div>
+          </Card>
+          <Card title='Total em vendas' size='quarter'>
+            <div
+              style={{
+                display: 'flex',
+                height: '100%',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <h1>{`R$ ${moneyMask(salesTotal)} `}</h1>
+            </div>
+          </Card>
+          <Card title='Lucro Total' size='quarter'>
+            <div
+              style={{
+                display: 'flex',
+                height: '100%',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <h1>{`R$ ${moneyMask((Number(salesTotal) - Number(purchaseTotal)).toFixed(2))}`}</h1>
+            </div>
+          </Card>
+          <Card title='Lista de produtos por Lucro' size='half'>
+            <Table
+              data={profitData}
+              refetch={profitRefetch}
+              columns={tableColumns}
+              loading={profitLoading}
+              noFilter
+            />
+          </Card>
+        </div>
+      </PageContent>
+    </Page>
+  );
+};
 
 export default Dashboard;

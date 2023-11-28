@@ -11,3 +11,9 @@ export type Product = {
   supply_id: Option[];
   discount_id: Option;
 };
+
+export type Profit = {
+  id: string;
+  name: string;
+  profit_percentage: NumberValue;
+};

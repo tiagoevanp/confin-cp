@@ -21,6 +21,7 @@ type TableProps = {
   columns: any;
   loading?: boolean;
   refetch: () => void;
+  noFilter?: boolean;
 };
 
 const filterFn: FilterFn<any> = (row, columnId, value, addMeta) => {
@@ -33,7 +34,7 @@ const filterFn: FilterFn<any> = (row, columnId, value, addMeta) => {
   return itemRank.passed;
 };
 
-const Table: FC<TableProps> = ({ data, columns, loading, refetch }) => {
+const Table: FC<TableProps> = ({ data, columns, loading, refetch, noFilter }) => {
   const [globalFilter, setGlobalFilter] = useState<string>('');
   const [sorting, setSorting] = useState<SortingState>([]);
 
@@ -62,12 +63,14 @@ const Table: FC<TableProps> = ({ data, columns, loading, refetch }) => {
 
   return (
     <>
-      <TableFilter
-        onChange={(value) => {
-          setGlobalFilter(value ?? '');
-        }}
-        value={globalFilter}
-      />
+      {noFilter ?? (
+        <TableFilter
+          onChange={(value) => {
+            setGlobalFilter(value ?? '');
+          }}
+          value={globalFilter}
+        />
+      )}
       <div className='cp-table__wrapper'>
         <table className='cp-table'>
           <thead>
