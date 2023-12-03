@@ -29,6 +29,11 @@
   </dependencyManagement>
   <dependencies>
     <dependency>
+      <groupId>io.smallrye</groupId>
+      <artifactId>smallrye-jwt</artifactId>
+      <version>4.4.0</version>
+    </dependency>
+    <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>1.18.28</version>
@@ -40,14 +45,6 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-resteasy-jackson</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-smallrye-jwt</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-smallrye-jwt-build</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -64,6 +61,10 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-liquibase-mongodb</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-oidc-token-propagation</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
