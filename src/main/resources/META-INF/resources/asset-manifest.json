@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/static/css/main.23fdb7fd.css",
+    "main.js": "/static/js/main.18b0b81c.js",
+    "static/media/Montserrat-VariableFont_wght.ttf": "/static/media/Montserrat-VariableFont_wght.7e687123cd4528224ce5.ttf",
+    "static/media/settings.svg": "/static/media/settings.28288cd093407cbe7a41.svg",
+    "static/media/empty.svg": "/static/media/empty.5a819e28051cd76283c6.svg",
+    "static/media/sad.svg": "/static/media/sad.e0c343679e3a755db65f.svg",
+    "static/media/delete.svg": "/static/media/delete.ac532333730c894b992c.svg",
+    "static/media/home.svg": "/static/media/home.d7bc135707228023cf0b.svg",
+    "static/media/edit.svg": "/static/media/edit.0e1d5b60c47feeb72af2.svg",
+    "static/media/logout.svg": "/static/media/logout.921c6414f772747e5818.svg",
+    "static/media/danger.svg": "/static/media/danger.688af361bb130c755ad1.svg",
+    "static/media/success.svg": "/static/media/success.d4598cfadced86056693.svg",
+    "static/media/warning.svg": "/static/media/warning.623cdea8d17a157f6e12.svg",
+    "static/media/close.svg": "/static/media/close.b01836fb202364bae878.svg",
+    "index.html": "/index.html",
+    "static/media/clipboard.svg": "/static/media/clipboard.88ff58d0feb17a427525.svg",
+    "main.23fdb7fd.css.map": "/static/css/main.23fdb7fd.css.map",
+    "main.18b0b81c.js.map": "/static/js/main.18b0b81c.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.23fdb7fd.css",
+    "static/js/main.18b0b81c.js"
+  ]
+}
