@@ -4,13 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.types.ObjectId;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import br.com.cofincp.api.v1.helpers.Deal;
+import br.com.cofincp.api.v1.helpers.DealJson;
 import br.com.cofincp.api.v1.helpers.ICrud;
 import br.com.cofincp.api.v1.helpers.Response;
+import br.com.cofincp.entities.BusinessConfEntity;
 import br.com.cofincp.entities.ProductEntity;
 import br.com.cofincp.entities.projections.Profit;
 import br.com.cofincp.enums.RestMethods;
+import br.com.cofincp.interfaces.IDeal;
 import br.com.cofincp.services.LogsService;
 import br.com.cofincp.services.ProductService;
 import io.quarkus.logging.Log;
@@ -39,6 +43,10 @@ public class Product extends LogsService implements ICrud<ProductEntity> {
     @Inject
     Supply supplyRestClient;
 
+    @Inject
+    @RestClient
+    IDeal dealRestClient;
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Override
@@ -58,12 +66,18 @@ public class Product extends LogsService implements ICrud<ProductEntity> {
     public Response deal() {
         try {
             List<ProductEntity> products = ProductEntity.listAll();
+            BusinessConfEntity creditCardFeeConf = (BusinessConfEntity) businessConfRestClient
+                    .read("credit_card_fee")
+                    .getPayload();
             List<Deal> deals = new ArrayList<>();
 
             for (ProductEntity product : products) {
-                Deal deal = new Deal(product, businessConfRestClient, supplyRestClient);
+                if (product == null) {
+                    break;
+                }
+                DealJson deal = new DealJson(product, creditCardFeeConf);
 
-                deals.add(deal);
+                deals.add(dealRestClient.calculate(deal));
             }
 
             return new Response(deals);
